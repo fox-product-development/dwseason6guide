@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ORIGIN LANDS // Season 6 Field Briefing</title>
+<title data-i18n="meta.title">ORIGIN LANDS // Season 6 Field Briefing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0B0D0A;
@@ -31,8 +31,22 @@
     background-image:
       repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
   }
+  html[dir="rtl"] body, html[dir="rtl"] *{font-family:'Cairo', sans-serif !important;}
   .display{font-family:'Rajdhani', sans-serif; text-transform:uppercase; letter-spacing:0.03em;}
   .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* LANG SWITCHER */
+  .langbar{
+    position:absolute; top:1.4rem; inset-inline-end:1.4rem; z-index:5;
+    display:flex; gap:0.4rem; flex-wrap:wrap;
+  }
+  .langbar button{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.05em;
+    background:transparent; border:1px solid var(--line); color:var(--text-dim);
+    padding:0.3rem 0.6rem; cursor:pointer; transition:all 0.15s;
+  }
+  .langbar button:hover{border-color:var(--green-bright); color:var(--green-bright);}
+  .langbar button.active{background:var(--green); border-color:var(--green); color:#0B0D0A; font-weight:600;}
 
   /* HERO */
   .hero{
@@ -52,21 +66,13 @@
       repeating-linear-gradient(0deg, rgba(78,144,80,0.05) 0px, rgba(78,144,80,0.05) 1px, transparent 1px, transparent 42px);
     pointer-events:none;
   }
-  .eyebrow{
-    color:var(--green-bright); font-family:'IBM Plex Mono', monospace;
-    font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase;
-    display:flex; align-items:center; gap:10px; margin-bottom:1.4rem;
-    position:relative; z-index:1;
-  }
-  .eyebrow::before{content:"●"; color:var(--red); font-size:0.6rem; animation:pulse 2s infinite;}
-  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.25;}}
   .hero h1{
-    font-size:clamp(2.8rem, 8vw, 6rem);
-    font-weight:700; line-height:0.92;
+    font-size:clamp(2.6rem, 7.5vw, 5.6rem);
+    font-weight:700; line-height:0.98;
     color:#F2F3E9;
     position:relative; z-index:1;
+    font-family:'Rajdhani', sans-serif; text-transform:uppercase; letter-spacing:0.02em;
   }
-  .hero h1 span{color:var(--green-bright);}
   .hero .sub{
     max-width:640px; margin-top:1.6rem; color:var(--text-dim);
     font-size:1.05rem; position:relative; z-index:1;
@@ -78,25 +84,28 @@
     color:var(--text-dim); letter-spacing:0.05em;
   }
   .tag strong{color:var(--amber);}
+  html[dir="rtl"] .tag, html[dir="rtl"] .langbar button{font-family:'Cairo', sans-serif;}
 
   /* LAYOUT */
   .wrap{display:flex; max-width:1320px; margin:0 auto;}
   nav.toc{
-    width:230px; flex-shrink:0; padding:3rem 1.5rem 3rem 0;
+    width:230px; flex-shrink:0;
+    padding-block:3rem;
+    padding-inline:0 1.5rem;
     position:sticky; top:0; align-self:flex-start; height:100vh;
     overflow-y:auto; display:none;
   }
   @media(min-width:1050px){ nav.toc{display:block;} }
-  nav.toc .toc-label{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.1em; margin-bottom:1rem; padding-left:0.9rem;}
+  nav.toc .toc-label{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.1em; margin-bottom:1rem; padding-inline-start:0.9rem;}
   nav.toc a{
     display:block; font-size:0.85rem; color:var(--text-dim); text-decoration:none;
-    padding:0.45rem 0.9rem; border-left:2px solid var(--line); margin-bottom:2px;
+    padding:0.45rem 0.9rem; border-inline-start:2px solid var(--line); margin-bottom:2px;
     transition:all 0.15s;
   }
-  nav.toc a:hover{color:var(--green-bright); border-left-color:var(--green-bright); background:rgba(78,144,80,0.06);}
+  nav.toc a:hover{color:var(--green-bright); border-inline-start-color:var(--green-bright); background:rgba(78,144,80,0.06);}
 
   main{flex:1; min-width:0; padding:3rem 6vw 6rem;}
-  @media(min-width:1050px){ main{padding:3rem 4vw 6rem 3rem;} }
+  @media(min-width:1050px){ main{padding-block:3rem 6rem; padding-inline-start:3rem; padding-inline-end:4vw;} }
 
   section{margin-bottom:5rem; scroll-margin-top:2rem;}
   .sec-head{display:flex; align-items:baseline; gap:1rem; margin-bottom:1.6rem; border-bottom:1px solid var(--line); padding-bottom:0.8rem;}
@@ -106,14 +115,15 @@
   .lead{font-size:1.1rem; color:var(--text); max-width:70ch;}
 
   .callout{
-    border-left:3px solid var(--amber); background:rgba(224,160,60,0.06);
+    border-inline-start:3px solid var(--amber); background:rgba(224,160,60,0.06);
     padding:1rem 1.3rem; margin:1.4rem 0; max-width:70ch;
   }
-  .callout.critical{border-left-color:var(--red); background:rgba(255,36,0,0.07);}
+  .callout.critical{border-inline-start-color:var(--red); background:rgba(255,36,0,0.07);}
   .callout .lbl{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.1em; color:var(--amber); margin-bottom:0.4rem;}
   .callout.critical .lbl{color:var(--red);}
 
   ul{margin:0.8rem 0 1.2rem 1.2rem; max-width:70ch;}
+  html[dir="rtl"] ul{margin:0.8rem 1.2rem 1.2rem 0;}
   li{margin-bottom:0.4rem;}
 
   /* TILE GRID DIAGRAMS */
@@ -133,14 +143,13 @@
   .tile.f{background:#1E2318; border:1px dashed var(--line);}
   .tile.e{background:var(--red); box-shadow:0 0 8px rgba(255,36,0,0.5);}
   .tile.node{background:var(--blue); box-shadow:0 0 10px rgba(52,164,235,0.6); border-radius:50%; font-size:1rem;}
-  .tile.oasis{background:var(--amber); font-size:1rem;}
   .label-city{
     font-family:'Rajdhani', sans-serif; font-weight:700; text-transform:uppercase;
     background:var(--bg-panel-2); border:1px solid var(--line); padding:0.35rem 0.8rem;
     font-size:0.85rem; display:flex; align-items:center; height:34px;
   }
+  html[dir="rtl"] .label-city{font-family:'Cairo', sans-serif;}
   .connector{width:16px; height:2px; background:var(--line);}
-  .connector.vert{width:2px; height:16px; margin-left:16px;}
 
   .compare{display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; max-width:720px;}
   @media(max-width:600px){.compare{grid-template-columns:1fr;}}
@@ -151,7 +160,7 @@
 
   /* TIMELINE TABLE */
   table{width:100%; border-collapse:collapse; max-width:900px; margin:1rem 0 1.6rem;}
-  th, td{text-align:left; padding:0.7rem 1rem; border-bottom:1px solid var(--line); font-size:0.92rem;}
+  th, td{text-align:start; padding:0.7rem 1rem; border-bottom:1px solid var(--line); font-size:0.92rem;}
   th{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.08em; color:var(--text-dim); text-transform:uppercase;}
   td.wk{font-family:'IBM Plex Mono', monospace; color:var(--amber);}
 
@@ -163,6 +172,8 @@
   .role-card.logistics{border-top-color:var(--green-bright);}
   .role-card h3{font-family:'Rajdhani', sans-serif; text-transform:uppercase; font-size:1.15rem; margin-bottom:0.6rem; color:#F2F3E9;}
   .role-card ul{margin:0.6rem 0 0 1.1rem;}
+  html[dir="rtl"] .role-card ul{margin:0.6rem 1.1rem 0 0;}
+  html[dir="rtl"] .role-card h3{font-family:'Cairo', sans-serif;}
   .role-card li{font-size:0.9rem; color:var(--text-dim);}
 
   /* PHASE STEPS */
@@ -173,263 +184,266 @@
     border-radius:50%; display:flex; align-items:center; justify-content:center;
   }
   .phase-body h4{font-family:'Rajdhani', sans-serif; text-transform:uppercase; font-size:1.1rem; margin-bottom:0.4rem; color:#F2F3E9;}
+  html[dir="rtl"] .phase-body h4{font-family:'Cairo', sans-serif;}
 
   /* CHECKLIST */
   .checklist{max-width:640px; background:var(--bg-panel); border:1px solid var(--line); padding:1.4rem 1.6rem;}
   .checklist .item{display:flex; gap:0.7rem; padding:0.5rem 0; border-bottom:1px solid var(--line); font-size:0.92rem;}
   .checklist .item:last-child{border-bottom:none;}
-  .checklist .item.good::before{content:"✓"; color:var(--green-bright); font-weight:700; flex-shrink:0;}
-  .checklist .item.bad::before{content:"✕"; color:var(--red); font-weight:700; flex-shrink:0;}
+  .checklist .item.good::before{content:"\2713"; color:var(--green-bright); font-weight:700; flex-shrink:0;}
+  .checklist .item.bad::before{content:"\2715"; color:var(--red); font-weight:700; flex-shrink:0;}
 
   footer{
     max-width:1320px; margin:0 auto; padding:2.4rem 6vw 3rem; border-top:1px solid var(--line);
     color:var(--text-dim); font-family:'IBM Plex Mono', monospace; font-size:0.78rem;
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.6rem;
   }
+  html[dir="rtl"] footer{font-family:'Cairo', sans-serif;}
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <h1>ORIGIN <span>LANDS</span></h1>
-  <p class="sub">Full field briefing on the Season 6 tile-conquest system — how territory actually works, why some tiles matter more than the cities behind them, and the build order that gets an alliance to the centre of the map intact.</p>
+  <div class="langbar" id="langbar"></div>
+  <h1 data-i18n="hero.title">ORIGIN LANDS</h1>
+  <p class="sub" data-i18n="hero.sub">Full field briefing on the Season 6 tile-conquest system — how territory actually works, why some tiles matter more than the cities behind them, and the build order that gets an alliance to the centre of the map intact.</p>
   <div class="tags">
-    <span class="tag">FACTION WAR — <strong>362 / 364 PAIRED</strong></span>
-    <span class="tag">TILE LIMIT — <strong>40</strong></span>
-    <span class="tag">ALTARS UNLOCK — <strong>WEEK 3</strong></span>
+    <span class="tag"><span data-i18n="hero.tag1.label">FACTION WAR</span> — <strong data-i18n="hero.tag1.value">362 / 364 PAIRED</strong></span>
+    <span class="tag"><span data-i18n="hero.tag2.label">TILE LIMIT</span> — <strong data-i18n="hero.tag2.value">40</strong></span>
+    <span class="tag"><span data-i18n="hero.tag3.label">ALTARS UNLOCK</span> — <strong data-i18n="hero.tag3.value">WEEK 3</strong></span>
   </div>
 </div>
 
 <div class="wrap">
 <nav class="toc">
-  <div class="toc-label">CONTENTS</div>
-  <a href="#tiles">01 — The Tile System</a>
-  <a href="#portals">02 — Portals</a>
-  <a href="#objectives">03 — Cities, Altars, Rewards</a>
-  <a href="#timeline">04 — Season Timeline</a>
-  <a href="#roles">05 — Alliance Roles</a>
-  <a href="#routes">06 — Route Strategy</a>
-  <a href="#buildout">07 — Phase Buildout</a>
-  <a href="#discipline">08 — Player Discipline</a>
+  <div class="toc-label" data-i18n="toc.label">CONTENTS</div>
+  <a href="#tiles" data-i18n="toc.tiles">01 — The Tile System</a>
+  <a href="#portals" data-i18n="toc.portals">02 — Portals</a>
+  <a href="#objectives" data-i18n="toc.objectives">03 — Cities, Altars, Rewards</a>
+  <a href="#timeline" data-i18n="toc.timeline">04 — Season Timeline</a>
+  <a href="#roles" data-i18n="toc.roles">05 — Alliance Roles</a>
+  <a href="#routes" data-i18n="toc.routes">06 — Route Strategy</a>
+  <a href="#buildout" data-i18n="toc.buildout">07 — Phase Buildout</a>
+  <a href="#discipline" data-i18n="toc.discipline">08 — Player Discipline</a>
 </nav>
 
 <main>
 
 <section id="tiles">
-  <div class="sec-head"><span class="sec-num">01</span><h2>The Tile System</h2></div>
-  <p class="lead">This is the single biggest change this season. There's no more free movement across the map — everything is built tile by tile, and it's the reason low-power players suddenly matter as much as whales.</p>
+  <div class="sec-head"><span class="sec-num">01</span><h2 data-i18n="sec1.h2">The Tile System</h2></div>
+  <p class="lead" data-i18n="sec1.lead">This is the single biggest change this season. There's no more free movement across the map — everything is built tile by tile, and it's the reason low-power players suddenly matter as much as whales.</p>
   <ul>
-    <li>A tile is created by sending an APC to occupy it — <strong>not</strong> crafted in a building.</li>
-    <li>You can <strong>only</strong> capture a tile adjacent to one you or your alliance already controls.</li>
-    <li>To attack a city, that city must be connected to your tile network.</li>
-    <li>If the enemy recaptures a tile mid-line, everything past it is cut off until the connection is restored.</li>
+    <li data-i18n="sec1.li1">A tile is created by sending an APC to occupy it — <strong>not</strong> crafted in a building.</li>
+    <li data-i18n="sec1.li2">You can <strong>only</strong> capture a tile adjacent to one you or your alliance already control.</li>
+    <li data-i18n="sec1.li3">To attack a city, that city must be connected to your tile network.</li>
+    <li data-i18n="sec1.li4">If the enemy recaptures a tile mid-line, everything past it is cut off until the connection is restored.</li>
   </ul>
 
   <div class="diagram">
-    <div class="cap">// EXAMPLE — advancing toward a city</div>
+    <div class="cap" data-i18n="sec1.diagramCap1">// EXAMPLE — advancing toward a city</div>
     <div class="row">
       <div class="tile c">A</div><div class="connector"></div>
       <div class="tile c">X</div><div class="connector"></div>
       <div class="tile c">X</div><div class="connector"></div>
-      <div class="label-city">CITY</div>
+      <div class="label-city" data-i18n="city.label">CITY</div>
     </div>
-    <div class="cap" style="margin-top:0.9rem;">// if the enemy retakes the middle tile</div>
+    <div class="cap" style="margin-top:0.9rem;" data-i18n="sec1.diagramCap2">// if the enemy retakes the middle tile</div>
     <div class="row">
       <div class="tile c">A</div><div class="connector"></div>
       <div class="tile e">✕</div><div class="connector"></div>
       <div class="tile c">X</div><div class="connector"></div>
-      <div class="label-city">CITY</div>
+      <div class="label-city" data-i18n="city.label">CITY</div>
     </div>
   </div>
 
   <div class="callout critical">
-    <div class="lbl">WHY THIS MATTERS</div>
-    Everything past that lost tile is disconnected — unusable until it's retaken. This is exactly why alliances defend some "worthless" tiles more fiercely than the cities themselves. It's never about the tile — it's about what it keeps connected.
+    <div class="lbl" data-i18n="sec1.calloutLbl1">WHY THIS MATTERS</div>
+    <span data-i18n="sec1.calloutBody1">Everything past that lost tile is disconnected — unusable until it's retaken. This is exactly why alliances defend some "worthless" tiles more fiercely than the cities themselves. It's never about the tile — it's about what it keeps connected.</span>
   </div>
 
   <div class="callout">
-    <div class="lbl">TILE LIMIT — CONFIRMED</div>
-    Each player is capped at <strong>40 tiles</strong>. Once you hit it, you release tiles or wait for space. Keep 30–40 <em>useful</em> tiles — don't burn your cap on dead-end positions.
+    <div class="lbl" data-i18n="sec1.calloutLbl2">TILE LIMIT — CONFIRMED</div>
+    <span data-i18n="sec1.calloutBody2">Each player is capped at <strong>40 tiles</strong>. Once you hit it, you release tiles or wait for space. Keep 30–40 <em>useful</em> tiles — don't burn your cap on dead-end positions.</span>
   </div>
 </section>
 
 <section id="portals">
-  <div class="sec-head"><span class="sec-num">02</span><h2>Portals</h2></div>
-  <p>Once your alliance controls enough connected territory (a 2×2 block), you can build a portal — instant APC movement and reinforcement to the front instead of marching in.</p>
+  <div class="sec-head"><span class="sec-num">02</span><h2 data-i18n="sec2.h2">Portals</h2></div>
+  <p data-i18n="sec2.body">Once your alliance controls enough connected territory (a 2×2 block), you can build a portal — instant APC movement and reinforcement to the front instead of marching in.</p>
 
   <div class="compare">
     <div>
       <div class="diagram">
-        <div class="cap">// BAD PLACEMENT</div>
+        <div class="cap" data-i18n="sec2.badCap">// BAD PLACEMENT</div>
         <div class="row">
           <div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div>
           <div class="tile node">◎</div>
         </div>
       </div>
-      <div class="verdict bad">Sits at the very tip of the advance — if the front falls back, it's isolated and becomes the first target.</div>
+      <div class="verdict bad" data-i18n="sec2.badVerdict">Sits at the very tip of the advance — if the front falls back, it's isolated and becomes the first target.</div>
     </div>
     <div>
       <div class="diagram">
-        <div class="cap">// GOOD PLACEMENT</div>
+        <div class="cap" data-i18n="sec2.goodCap">// GOOD PLACEMENT</div>
         <div class="row"><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div></div>
         <div class="row"><div class="tile node">◎</div></div>
         <div class="row"><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div></div>
       </div>
-      <div class="verdict good">Sits behind the front, protected by multiple access routes on either side.</div>
+      <div class="verdict good" data-i18n="sec2.goodVerdict">Sits behind the front, protected by multiple access routes on either side.</div>
     </div>
   </div>
 </section>
 
 <section id="objectives">
-  <div class="sec-head"><span class="sec-num">03</span><h2>Cities, Altars & Rewards</h2></div>
-  <p><strong>Cities</strong> generate Influence and drive the faction ranking. Higher-level cities — especially the central one — are worth far more, so factions concentrate on a handful of major targets instead of spreading thin.</p>
-  <p><strong>Altars</strong> start appearing around Week 3, granting powerful alliance-wide skills — shields, missile-type attacks, and more. You can't hold every skill at once; which ones you pick shapes the alliance's entire strategy for the rest of the season.</p>
-  <p><strong>War Merits</strong> are earned individually through captures, defence, and support. These unlock personal bonuses and end-of-season rewards on top of the faction ranking — so individual contribution still counts, even inside a team-first system.</p>
+  <div class="sec-head"><span class="sec-num">03</span><h2 data-i18n="sec3.h2">Cities, Altars & Rewards</h2></div>
+  <p data-i18n="sec3.p1"><strong>Cities</strong> generate Influence and drive the faction ranking. Higher-level cities — especially the central one — are worth far more, so factions concentrate on a handful of major targets instead of spreading thin.</p>
+  <p data-i18n="sec3.p2"><strong>Altars</strong> start appearing around Week 3, granting powerful alliance-wide skills — shields, missile-type attacks, and more. You can't hold every skill at once; which ones you pick shapes the alliance's entire strategy for the rest of the season.</p>
+  <p data-i18n="sec3.p3"><strong>War Merits</strong> are earned individually through captures, defence, and support. These unlock personal bonuses and end-of-season rewards on top of the faction ranking — so individual contribution still counts, even inside a team-first system.</p>
 </section>
 
 <section id="timeline">
-  <div class="sec-head"><span class="sec-num">04</span><h2>Season Timeline</h2></div>
+  <div class="sec-head"><span class="sec-num">04</span><h2 data-i18n="sec4.h2">Season Timeline</h2></div>
   <table>
-    <thead><tr><th>Week</th><th>Focus</th><th>Top Priority</th></tr></thead>
+    <thead><tr><th data-i18n="th.week">Week</th><th data-i18n="th.focus">Focus</th><th data-i18n="th.priority">Top Priority</th></tr></thead>
     <tbody>
-      <tr><td class="wk">01</td><td>Expansion</td><td>Capture as many tiles &amp; oases as possible</td></tr>
-      <tr><td class="wk">02</td><td>First Cities</td><td>Secure low-level cities</td></tr>
-      <tr><td class="wk">03</td><td>Altars Begin</td><td>Develop alliance skills</td></tr>
-      <tr><td class="wk">04</td><td>Positional Warfare</td><td>Prepare major offensives</td></tr>
-      <tr><td class="wk">05</td><td>Large-Scale Battles</td><td>Control key cities</td></tr>
-      <tr><td class="wk">06</td><td>Total War</td><td>Dominate strategic points</td></tr>
-      <tr><td class="wk">07</td><td>Final Battle</td><td>Control the centre, maximise Influence</td></tr>
-      <tr><td class="wk">08</td><td>Closure</td><td>Bank final points &amp; rewards</td></tr>
+      <tr><td class="wk">01</td><td data-i18n="row1.focus">Expansion</td><td data-i18n="row1.pri">Capture as many tiles &amp; oases as possible</td></tr>
+      <tr><td class="wk">02</td><td data-i18n="row2.focus">First Cities</td><td data-i18n="row2.pri">Secure low-level cities</td></tr>
+      <tr><td class="wk">03</td><td data-i18n="row3.focus">Altars Begin</td><td data-i18n="row3.pri">Develop alliance skills</td></tr>
+      <tr><td class="wk">04</td><td data-i18n="row4.focus">Positional Warfare</td><td data-i18n="row4.pri">Prepare major offensives</td></tr>
+      <tr><td class="wk">05</td><td data-i18n="row5.focus">Large-Scale Battles</td><td data-i18n="row5.pri">Control key cities</td></tr>
+      <tr><td class="wk">06</td><td data-i18n="row6.focus">Total War</td><td data-i18n="row6.pri">Dominate strategic points</td></tr>
+      <tr><td class="wk">07</td><td data-i18n="row7.focus">Final Battle</td><td data-i18n="row7.pri">Control the centre, maximise Influence</td></tr>
+      <tr><td class="wk">08</td><td data-i18n="row8.focus">Closure</td><td data-i18n="row8.pri">Bank final points &amp; rewards</td></tr>
     </tbody>
   </table>
 </section>
 
 <section id="roles">
-  <div class="sec-head"><span class="sec-num">05</span><h2>How Alliance Roles Typically Split</h2></div>
-  <p>On well-organised servers, alliances naturally divide into roles rather than every alliance doing everything.</p>
+  <div class="sec-head"><span class="sec-num">05</span><h2 data-i18n="sec5.h2">How Alliance Roles Typically Split</h2></div>
+  <p data-i18n="sec5.body">On well-organised servers, alliances naturally divide into roles rather than every alliance doing everything.</p>
   <div class="roles">
     <div class="role-card">
-      <h3>Spearhead</h3>
-      <ul><li>Captures major cities</li><li>Leads the big battles</li><li>Holds the highest-value objectives</li></ul>
+      <h3 data-i18n="role1.title">Spearhead</h3>
+      <ul><li data-i18n="role1.li1">Captures major cities</li><li data-i18n="role1.li2">Leads the big battles</li><li data-i18n="role1.li3">Holds the highest-value objectives</li></ul>
     </div>
     <div class="role-card support">
-      <h3>Support</h3>
-      <ul><li>Protects flanks</li><li>Reinforces the spearhead</li><li>Backfills losses on major fronts</li></ul>
+      <h3 data-i18n="role2.title">Support</h3>
+      <ul><li data-i18n="role2.li1">Protects flanks</li><li data-i18n="role2.li2">Reinforces the spearhead</li><li data-i18n="role2.li3">Backfills losses on major fronts</li></ul>
     </div>
     <div class="role-card logistics">
-      <h3>Logistics / Route</h3>
-      <ul><li>Builds tile corridors</li><li>Captures oases</li><li>Defends key passages</li><li>Preps future offensives</li></ul>
+      <h3 data-i18n="role3.title">Logistics / Route</h3>
+      <ul><li data-i18n="role3.li1">Builds tile corridors</li><li data-i18n="role3.li2">Captures oases</li><li data-i18n="role3.li3">Defends key passages</li><li data-i18n="role3.li4">Preps future offensives</li></ul>
     </div>
   </div>
   <div class="callout">
-    <div class="lbl">OFTEN THE MOST DECISIVE ROLE</div>
-    The logistics role isn't glamorous, but a fight is frequently won or lost entirely on whether the routes and oases behind the front line hold. Oases specifically produce Holy Water, used to upgrade your seasonal Obelisk and increase resistance — more oases under control means faster overall progress for everyone.
+    <div class="lbl" data-i18n="sec5.calloutLbl">OFTEN THE MOST DECISIVE ROLE</div>
+    <span data-i18n="sec5.calloutBody">The logistics role isn't glamorous, but a fight is frequently won or lost entirely on whether the routes and oases behind the front line hold. Oases specifically produce Holy Water, used to upgrade your seasonal Obelisk and increase resistance — more oases under control means faster overall progress for everyone.</span>
   </div>
 </section>
 
 <section id="routes">
-  <div class="sec-head"><span class="sec-num">06</span><h2>Route-Building Strategy</h2></div>
+  <div class="sec-head"><span class="sec-num">06</span><h2 data-i18n="sec6.h2">Route-Building Strategy</h2></div>
 
   <div class="diagram">
-    <div class="cap">// CHOKEPOINT — one tile blocks an entire sector</div>
+    <div class="cap" data-i18n="diagCap.choke">// CHOKEPOINT — one tile blocks an entire sector</div>
     <div class="row">
       <div class="tile f"></div><div class="tile f"></div><div class="tile f"></div>
       <div class="tile c">◆</div>
       <div class="tile f"></div><div class="tile f"></div><div class="tile f"></div>
     </div>
   </div>
-  <p>Hold it and you block a whole route. Lose it and the enemy opens an entirely new attack lane. The best strategists prioritise these before anything else.</p>
+  <p data-i18n="sec6.p1">Hold it and you block a whole route. Lose it and the enemy opens an entirely new attack lane. The best strategists prioritise these before anything else.</p>
 
   <div class="diagram">
-    <div class="cap">// CROSSROADS — one tile, multiple directions</div>
+    <div class="cap" data-i18n="diagCap.cross">// CROSSROADS — one tile, multiple directions</div>
     <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
       <div class="tile c"></div>
       <div class="row" style="margin:0;"><div class="tile c"></div><div class="tile c"></div><div class="tile node">✛</div><div class="tile c"></div><div class="tile c"></div></div>
       <div class="tile c"></div>
     </div>
   </div>
-  <p>Control this and you can launch offensives, cut off enemy movement, and defend more easily — all from a single position.</p>
+  <p data-i18n="sec6.p2">Control this and you can launch offensives, cut off enemy movement, and defend more easily — all from a single position.</p>
 
   <div class="compare" style="margin-top:1.6rem;">
     <div>
       <div class="diagram">
-        <div class="cap">// SINGLE LINE</div>
+        <div class="cap" data-i18n="diagCap.single">// SINGLE LINE</div>
         <div class="row"><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div></div>
       </div>
-      <div class="verdict bad">One lost tile in the middle stops everything, full stop.</div>
+      <div class="verdict bad" data-i18n="verdictBad1">One lost tile in the middle stops everything, full stop.</div>
     </div>
     <div>
       <div class="diagram">
-        <div class="cap">// DOUBLE HIGHWAY</div>
+        <div class="cap" data-i18n="diagCap.double">// DOUBLE HIGHWAY</div>
         <div class="row"><div class="tile c"></div><div class="tile c"></div><div class="tile e">✕</div><div class="tile c"></div><div class="tile c"></div></div>
         <div class="row" style="margin-top:2px;"><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div></div>
       </div>
-      <div class="verdict good">Lose a tile on one line — the parallel line keeps the route alive.</div>
+      <div class="verdict good" data-i18n="verdictGood1">Lose a tile on one line — the parallel line keeps the route alive.</div>
     </div>
   </div>
 </section>
 
 <section id="buildout">
-  <div class="sec-head"><span class="sec-num">07</span><h2>Phase-by-Phase Buildout</h2></div>
+  <div class="sec-head"><span class="sec-num">07</span><h2 data-i18n="sec7.h2">Phase-by-Phase Buildout</h2></div>
 
   <div class="phase">
     <div class="pnum">1</div>
     <div class="phase-body">
-      <h4>Days 1–3 — Leave Spawn Fast</h4>
-      <p>Don't try to grab every tile. Build one main corridor toward the nearest oases — that's your Holy Water and resistance source. Big accounts hold for major objectives; mid-level players secure oases and side routes.</p>
+      <h4 data-i18n="phase1.h4">Days 1–3 — Leave Spawn Fast</h4>
+      <p data-i18n="phase1.body">Don't try to grab every tile. Build one main corridor toward the nearest oases — that's your Holy Water and resistance source. Big accounts hold for major objectives; mid-level players secure oases and side routes.</p>
     </div>
   </div>
 
   <div class="phase">
     <div class="pnum">2</div>
     <div class="phase-body">
-      <h4>Days 4–10 — First Cities Open</h4>
-      <p>Don't build a single direct line to the city — one cut tile stops everything. Build a <strong>triangle</strong>: two converging routes, so if one side is cut, the other still supplies the city.</p>
+      <h4 data-i18n="phase2.h4">Days 4–10 — First Cities Open</h4>
+      <p data-i18n="phase2.body">Don't build a single direct line to the city — one cut tile stops everything. Build a <strong>triangle</strong>: two converging routes, so if one side is cut, the other still supplies the city.</p>
     </div>
   </div>
 
   <div class="phase">
     <div class="pnum">3</div>
     <div class="phase-body">
-      <h4>After Week 1 — Hub Formation</h4>
-      <p>Major alliances build hubs — a central crossroads branching toward a city, an altar, and an oasis. Any one front can collapse without taking the whole position down.</p>
+      <h4 data-i18n="phase3.h4">After Week 1 — Hub Formation</h4>
+      <p data-i18n="phase3.body">Major alliances build hubs — a central crossroads branching toward a city, an altar, and an oasis. Any one front can collapse without taking the whole position down.</p>
     </div>
   </div>
 
   <div class="phase">
     <div class="pnum">4</div>
     <div class="phase-body">
-      <h4>Highways &amp; Grids</h4>
-      <p>Two main parallel routes, then cross-connections between them — often just called a "grid" by R5s.</p>
+      <h4 data-i18n="phase4.h4">Highways &amp; Grids</h4>
+      <p data-i18n="phase4.body">Two main parallel routes, then cross-connections between them — often just called a "grid" by R5s.</p>
     </div>
   </div>
 
   <div class="phase">
     <div class="pnum">5</div>
     <div class="phase-body">
-      <h4>Approaching the Centre — Build a Web</h4>
-      <p>Stop building single routes entirely. At this stage no single tile loss can stop the advance — that's the whole point.</p>
+      <h4 data-i18n="phase5.h4">Approaching the Centre — Build a Web</h4>
+      <p data-i18n="phase5.body">Stop building single routes entirely. At this stage no single tile loss can stop the advance — that's the whole point.</p>
     </div>
   </div>
 </section>
 
 <section id="discipline">
-  <div class="sec-head"><span class="sec-num">08</span><h2>Player Discipline</h2></div>
-  <p>A good player isn't just chasing kills. What R4s and R5s actually expect:</p>
+  <div class="sec-head"><span class="sec-num">08</span><h2 data-i18n="sec8.h2">Player Discipline</h2></div>
+  <p data-i18n="sec8.p">A good player isn't just chasing kills. What R4s and R5s actually expect:</p>
   <div class="checklist">
-    <div class="item good">Captures the tiles they're asked to</div>
-    <div class="item good">Releases a tile immediately if an officer needs it for a better route</div>
-    <div class="item good">Stays available to recapture a lost tile fast</div>
-    <div class="item good">Follows the planned advance routes rather than freelancing</div>
-    <div class="item bad">Capturing isolated tiles that connect to nothing</div>
-    <div class="item bad">Filling the full 40-tile cap while the alliance still needs routes opened</div>
-    <div class="item bad">Refusing to release a tile when an R4 asks</div>
-    <div class="item bad">Attacking without checking the connection to the network is still live</div>
+    <div class="item good" data-i18n="good1">Captures the tiles they're asked to</div>
+    <div class="item good" data-i18n="good2">Releases a tile immediately if an officer needs it for a better route</div>
+    <div class="item good" data-i18n="good3">Stays available to recapture a lost tile fast</div>
+    <div class="item good" data-i18n="good4">Follows the planned advance routes rather than freelancing</div>
+    <div class="item bad" data-i18n="bad1">Capturing isolated tiles that connect to nothing</div>
+    <div class="item bad" data-i18n="bad2">Filling the full 40-tile cap while the alliance still needs routes opened</div>
+    <div class="item bad" data-i18n="bad3">Refusing to release a tile when an R4 asks</div>
+    <div class="item bad" data-i18n="bad4">Attacking without checking the connection to the network is still live</div>
   </div>
 
   <div class="callout" style="margin-top:1.8rem;">
-    <div class="lbl">FOR A TOP FINISH</div>
-    Log in for every major opening — cities, altars, big battles. Keep stamina and speed-ups in reserve for war days rather than burning them early. Don't waste tile slots on dead positions — prioritise ones that open routes or guard key points. If you're not a top-power player, tile capture and defence is genuinely one of the most valuable things you can do this season.
+    <div class="lbl" data-i18n="sec8.calloutLbl">FOR A TOP FINISH</div>
+    <span data-i18n="sec8.calloutBody">Log in for every major opening — cities, altars, big battles. Keep stamina and speed-ups in reserve for war days rather than burning them early. Don't waste tile slots on dead positions — prioritise ones that open routes or guard key points. If you're not a top-power player, tile capture and defence is genuinely one of the most valuable things you can do this season.</span>
   </div>
 </section>
 
@@ -437,9 +451,451 @@
 </div>
 
 <footer>
-  <span>ORIGIN LANDS // SEASON 6 FIELD BRIEFING</span>
-  <span>STATE 362 — PAIRED WITH 364</span>
+  <span data-i18n="footer.line1">ORIGIN LANDS // SEASON 6 FIELD BRIEFING</span>
+  <span data-i18n="footer.line2">STATE 362 — PAIRED WITH 364</span>
 </footer>
+
+<script>
+const TRANSLATIONS = {
+en:{
+"meta.title":"ORIGIN LANDS // Season 6 Field Briefing",
+"hero.title":"ORIGIN LANDS",
+"hero.sub":"Full field briefing on the Season 6 tile-conquest system — how territory actually works, why some tiles matter more than the cities behind them, and the build order that gets an alliance to the centre of the map intact.",
+"hero.tag1.label":"FACTION WAR","hero.tag1.value":"362 / 364 PAIRED",
+"hero.tag2.label":"TILE LIMIT","hero.tag2.value":"40",
+"hero.tag3.label":"ALTARS UNLOCK","hero.tag3.value":"WEEK 3",
+"toc.label":"CONTENTS",
+"toc.tiles":"01 — The Tile System","toc.portals":"02 — Portals","toc.objectives":"03 — Cities, Altars, Rewards",
+"toc.timeline":"04 — Season Timeline","toc.roles":"05 — Alliance Roles","toc.routes":"06 — Route Strategy",
+"toc.buildout":"07 — Phase Buildout","toc.discipline":"08 — Player Discipline",
+"sec1.h2":"The Tile System",
+"sec1.lead":"This is the single biggest change this season. There's no more free movement across the map — everything is built tile by tile, and it's the reason low-power players suddenly matter as much as whales.",
+"sec1.li1":"A tile is created by sending an APC to occupy it — <strong>not</strong> crafted in a building.",
+"sec1.li2":"You can <strong>only</strong> capture a tile adjacent to one you or your alliance already control.",
+"sec1.li3":"To attack a city, that city must be connected to your tile network.",
+"sec1.li4":"If the enemy recaptures a tile mid-line, everything past it is cut off until the connection is restored.",
+"sec1.diagramCap1":"// EXAMPLE — advancing toward a city","sec1.diagramCap2":"// if the enemy retakes the middle tile","city.label":"CITY",
+"sec1.calloutLbl1":"WHY THIS MATTERS",
+"sec1.calloutBody1":"Everything past that lost tile is disconnected — unusable until it's retaken. This is exactly why alliances defend some \"worthless\" tiles more fiercely than the cities themselves. It's never about the tile — it's about what it keeps connected.",
+"sec1.calloutLbl2":"TILE LIMIT — CONFIRMED",
+"sec1.calloutBody2":"Each player is capped at <strong>40 tiles</strong>. Once you hit it, you release tiles or wait for space. Keep 30–40 <em>useful</em> tiles — don't burn your cap on dead-end positions.",
+"sec2.h2":"Portals",
+"sec2.body":"Once your alliance controls enough connected territory (a 2×2 block), you can build a portal — instant APC movement and reinforcement to the front instead of marching in.",
+"sec2.badCap":"// BAD PLACEMENT","sec2.badVerdict":"Sits at the very tip of the advance — if the front falls back, it's isolated and becomes the first target.",
+"sec2.goodCap":"// GOOD PLACEMENT","sec2.goodVerdict":"Sits behind the front, protected by multiple access routes on either side.",
+"sec3.h2":"Cities, Altars & Rewards",
+"sec3.p1":"<strong>Cities</strong> generate Influence and drive the faction ranking. Higher-level cities — especially the central one — are worth far more, so factions concentrate on a handful of major targets instead of spreading thin.",
+"sec3.p2":"<strong>Altars</strong> start appearing around Week 3, granting powerful alliance-wide skills — shields, missile-type attacks, and more. You can't hold every skill at once; which ones you pick shapes the alliance's entire strategy for the rest of the season.",
+"sec3.p3":"<strong>War Merits</strong> are earned individually through captures, defence, and support. These unlock personal bonuses and end-of-season rewards on top of the faction ranking — so individual contribution still counts, even inside a team-first system.",
+"sec4.h2":"Season Timeline","th.week":"Week","th.focus":"Focus","th.priority":"Top Priority",
+"row1.focus":"Expansion","row1.pri":"Capture as many tiles &amp; oases as possible",
+"row2.focus":"First Cities","row2.pri":"Secure low-level cities",
+"row3.focus":"Altars Begin","row3.pri":"Develop alliance skills",
+"row4.focus":"Positional Warfare","row4.pri":"Prepare major offensives",
+"row5.focus":"Large-Scale Battles","row5.pri":"Control key cities",
+"row6.focus":"Total War","row6.pri":"Dominate strategic points",
+"row7.focus":"Final Battle","row7.pri":"Control the centre, maximise Influence",
+"row8.focus":"Closure","row8.pri":"Bank final points &amp; rewards",
+"sec5.h2":"How Alliance Roles Typically Split",
+"sec5.body":"On well-organised servers, alliances naturally divide into roles rather than every alliance doing everything.",
+"role1.title":"Spearhead","role1.li1":"Captures major cities","role1.li2":"Leads the big battles","role1.li3":"Holds the highest-value objectives",
+"role2.title":"Support","role2.li1":"Protects flanks","role2.li2":"Reinforces the spearhead","role2.li3":"Backfills losses on major fronts",
+"role3.title":"Logistics / Route","role3.li1":"Builds tile corridors","role3.li2":"Captures oases","role3.li3":"Defends key passages","role3.li4":"Preps future offensives",
+"sec5.calloutLbl":"OFTEN THE MOST DECISIVE ROLE",
+"sec5.calloutBody":"The logistics role isn't glamorous, but a fight is frequently won or lost entirely on whether the routes and oases behind the front line hold. Oases specifically produce Holy Water, used to upgrade your seasonal Obelisk and increase resistance — more oases under control means faster overall progress for everyone.",
+"sec6.h2":"Route-Building Strategy",
+"diagCap.choke":"// CHOKEPOINT — one tile blocks an entire sector",
+"sec6.p1":"Hold it and you block a whole route. Lose it and the enemy opens an entirely new attack lane. The best strategists prioritise these before anything else.",
+"diagCap.cross":"// CROSSROADS — one tile, multiple directions",
+"sec6.p2":"Control this and you can launch offensives, cut off enemy movement, and defend more easily — all from a single position.",
+"diagCap.single":"// SINGLE LINE","verdictBad1":"One lost tile in the middle stops everything, full stop.",
+"diagCap.double":"// DOUBLE HIGHWAY","verdictGood1":"Lose a tile on one line — the parallel line keeps the route alive.",
+"sec7.h2":"Phase-by-Phase Buildout",
+"phase1.h4":"Days 1–3 — Leave Spawn Fast","phase1.body":"Don't try to grab every tile. Build one main corridor toward the nearest oases — that's your Holy Water and resistance source. Big accounts hold for major objectives; mid-level players secure oases and side routes.",
+"phase2.h4":"Days 4–10 — First Cities Open","phase2.body":"Don't build a single direct line to the city — one cut tile stops everything. Build a <strong>triangle</strong>: two converging routes, so if one side is cut, the other still supplies the city.",
+"phase3.h4":"After Week 1 — Hub Formation","phase3.body":"Major alliances build hubs — a central crossroads branching toward a city, an altar, and an oasis. Any one front can collapse without taking the whole position down.",
+"phase4.h4":"Highways &amp; Grids","phase4.body":"Two main parallel routes, then cross-connections between them — often just called a \"grid\" by R5s.",
+"phase5.h4":"Approaching the Centre — Build a Web","phase5.body":"Stop building single routes entirely. At this stage no single tile loss can stop the advance — that's the whole point.",
+"sec8.h2":"Player Discipline","sec8.p":"A good player isn't just chasing kills. What R4s and R5s actually expect:",
+"good1":"Captures the tiles they're asked to","good2":"Releases a tile immediately if an officer needs it for a better route","good3":"Stays available to recapture a lost tile fast","good4":"Follows the planned advance routes rather than freelancing",
+"bad1":"Capturing isolated tiles that connect to nothing","bad2":"Filling the full 40-tile cap while the alliance still needs routes opened","bad3":"Refusing to release a tile when an R4 asks","bad4":"Attacking without checking the connection to the network is still live",
+"sec8.calloutLbl":"FOR A TOP FINISH",
+"sec8.calloutBody":"Log in for every major opening — cities, altars, big battles. Keep stamina and speed-ups in reserve for war days rather than burning them early. Don't waste tile slots on dead positions — prioritise ones that open routes or guard key points. If you're not a top-power player, tile capture and defence is genuinely one of the most valuable things you can do this season.",
+"footer.line1":"ORIGIN LANDS // SEASON 6 FIELD BRIEFING","footer.line2":"STATE 362 — PAIRED WITH 364"
+},
+fr:{
+"meta.title":"TERRES D'ORIGINE // Briefing de terrain — Saison 6",
+"hero.title":"TERRES D'ORIGINE",
+"hero.sub":"Briefing complet sur le système de conquête de cases de la Saison 6 — comment le territoire fonctionne réellement, pourquoi certaines cases comptent plus que les villes qu'elles protègent, et l'ordre de construction qui permet à une alliance d'atteindre le centre de la carte intacte.",
+"hero.tag1.label":"GUERRE DE FACTION","hero.tag1.value":"362 / 364 JUMELÉS",
+"hero.tag2.label":"LIMITE DE CASES","hero.tag2.value":"40",
+"hero.tag3.label":"OUVERTURE DES AUTELS","hero.tag3.value":"SEMAINE 3",
+"toc.label":"SOMMAIRE",
+"toc.tiles":"01 — Le système de cases","toc.portals":"02 — Les portails","toc.objectives":"03 — Villes, autels, récompenses",
+"toc.timeline":"04 — Calendrier de la saison","toc.roles":"05 — Rôles des alliances","toc.routes":"06 — Stratégie de tracé",
+"toc.buildout":"07 — Construction par phases","toc.discipline":"08 — Discipline des joueurs",
+"sec1.h2":"Le système de cases",
+"sec1.lead":"C'est le plus grand changement de cette saison. Il n'y a plus de déplacement libre sur la carte — tout se construit case par case, et c'est pour cela que les joueurs peu puissants comptent désormais autant que les gros comptes.",
+"sec1.li1":"Une case est créée en y envoyant un APC — <strong>pas</strong> fabriquée dans un bâtiment.",
+"sec1.li2":"Vous pouvez <strong>uniquement</strong> capturer une case adjacente à une case déjà contrôlée par vous ou votre alliance.",
+"sec1.li3":"Pour attaquer une ville, celle-ci doit être connectée à votre réseau de cases.",
+"sec1.li4":"Si l'ennemi reprend une case au milieu d'une ligne, tout ce qui se trouve au-delà est coupé jusqu'à ce que la connexion soit rétablie.",
+"sec1.diagramCap1":"// EXEMPLE — progression vers une ville","sec1.diagramCap2":"// si l'ennemi reprend la case du milieu","city.label":"VILLE",
+"sec1.calloutLbl1":"POURQUOI C'EST IMPORTANT",
+"sec1.calloutBody1":"Tout ce qui se trouve après cette case perdue est déconnecté — inutilisable tant qu'elle n'est pas reprise. C'est exactement pour cela que les alliances défendent certaines cases « sans valeur » plus farouchement que les villes elles-mêmes. Ce n'est jamais la case qui compte — c'est ce qu'elle relie.",
+"sec1.calloutLbl2":"LIMITE DE CASES — CONFIRMÉE",
+"sec1.calloutBody2":"Chaque joueur est limité à <strong>40 cases</strong>. Une fois la limite atteinte, vous devez en libérer ou attendre de la place. Gardez 30 à 40 cases <em>utiles</em> — ne gaspillez pas votre limite sur des positions sans issue.",
+"sec2.h2":"Les portails",
+"sec2.body":"Dès que votre alliance contrôle suffisamment de territoire connecté (un bloc de 2×2), vous pouvez construire un portail — déplacement et renfort instantanés vers le front au lieu d'une marche.",
+"sec2.badCap":"// MAUVAIS EMPLACEMENT","sec2.badVerdict":"Placé tout au bout de l'avancée — si le front recule, il est isolé et devient la première cible.",
+"sec2.goodCap":"// BON EMPLACEMENT","sec2.goodVerdict":"Placé en retrait du front, protégé par plusieurs voies d'accès de chaque côté.",
+"sec3.h2":"Villes, autels et récompenses",
+"sec3.p1":"Les <strong>villes</strong> génèrent de l'influence et déterminent le classement de faction. Les villes de haut niveau — en particulier la ville centrale — valent bien plus, ce qui pousse les factions à concentrer leurs efforts sur quelques objectifs majeurs plutôt que de se disperser.",
+"sec3.p2":"Les <strong>autels</strong> commencent à apparaître vers la semaine 3, offrant de puissantes compétences d'alliance — boucliers, attaques de type missile, et plus encore. Vous ne pouvez pas toutes les posséder ; les choix effectués façonnent toute la stratégie de l'alliance pour le reste de la saison.",
+"sec3.p3":"Les <strong>mérites de guerre</strong> s'obtiennent individuellement via les captures, la défense et le soutien. Ils débloquent des bonus personnels et des récompenses de fin de saison en plus du classement de faction — la contribution individuelle compte donc toujours, même dans un système axé sur l'équipe.",
+"sec4.h2":"Calendrier de la saison","th.week":"Semaine","th.focus":"Objectif","th.priority":"Priorité principale",
+"row1.focus":"Expansion","row1.pri":"Capturer un maximum de cases et d'oasis",
+"row2.focus":"Premières villes","row2.pri":"Sécuriser les villes de bas niveau",
+"row3.focus":"Début des autels","row3.pri":"Développer les compétences d'alliance",
+"row4.focus":"Guerre de position","row4.pri":"Préparer les offensives majeures",
+"row5.focus":"Batailles à grande échelle","row5.pri":"Contrôler les villes clés",
+"row6.focus":"Guerre totale","row6.pri":"Dominer les points stratégiques",
+"row7.focus":"Bataille finale","row7.pri":"Contrôler le centre, maximiser l'influence",
+"row8.focus":"Clôture","row8.pri":"Engranger les derniers points et récompenses",
+"sec5.h2":"Répartition habituelle des rôles d'alliance",
+"sec5.body":"Sur les serveurs bien organisés, les alliances se répartissent naturellement les rôles plutôt que de tout faire elles-mêmes.",
+"role1.title":"Fer de lance","role1.li1":"Capture les villes majeures","role1.li2":"Mène les grandes batailles","role1.li3":"Tient les objectifs à plus forte valeur",
+"role2.title":"Soutien","role2.li1":"Protège les flancs","role2.li2":"Renforce le fer de lance","role2.li3":"Comble les pertes sur les fronts majeurs",
+"role3.title":"Logistique / Tracé","role3.li1":"Construit les corridors de cases","role3.li2":"Capture les oasis","role3.li3":"Défend les points de passage clés","role3.li4":"Prépare les futures offensives",
+"sec5.calloutLbl":"SOUVENT LE RÔLE LE PLUS DÉCISIF",
+"sec5.calloutBody":"Le rôle de logistique n'est pas glorieux, mais une bataille se gagne ou se perd souvent sur la solidité des routes et des oasis à l'arrière du front. Les oasis produisent notamment l'Eau Sacrée, utilisée pour améliorer votre Obélisque saisonnier et augmenter votre résistance — plus vous en contrôlez, plus la progression globale est rapide pour tout le monde.",
+"sec6.h2":"Stratégie de tracé",
+"diagCap.choke":"// POINT D'ÉTRANGLEMENT — une case bloque tout un secteur",
+"sec6.p1":"Le tenir bloque toute une route. Le perdre ouvre un tout nouvel axe d'attaque à l'ennemi. Les meilleurs stratèges priorisent ces points avant tout le reste.",
+"diagCap.cross":"// CARREFOUR — une case, plusieurs directions",
+"sec6.p2":"Le contrôler permet de lancer des offensives, de couper les mouvements ennemis et de défendre plus facilement — le tout depuis une seule position.",
+"diagCap.single":"// LIGNE UNIQUE","verdictBad1":"Une seule case perdue au milieu arrête tout, sans exception.",
+"diagCap.double":"// DOUBLE VOIE","verdictGood1":"Une case perdue sur une ligne — la ligne parallèle maintient la route ouverte.",
+"sec7.h2":"Construction par phases",
+"phase1.h4":"Jours 1–3 — Quitter la zone de départ rapidement","phase1.body":"N'essayez pas de capturer toutes les cases. Construisez un corridor principal vers les oasis les plus proches — c'est votre source d'Eau Sacrée et de résistance. Les gros comptes restent disponibles pour les objectifs majeurs ; les joueurs de niveau intermédiaire sécurisent les oasis et les routes secondaires.",
+"phase2.h4":"Jours 4–10 — Ouverture des premières villes","phase2.body":"Ne construisez pas une seule ligne directe vers la ville — une case coupée arrête tout. Construisez un <strong>triangle</strong> : deux routes convergentes, pour que si un côté est coupé, l'autre continue d'alimenter la ville.",
+"phase3.h4":"Après la semaine 1 — Formation d'un point central","phase3.body":"Les grandes alliances construisent des points centraux — un carrefour qui rayonne vers une ville, un autel et une oasis. Un front peut s'effondrer sans faire tomber toute la position.",
+"phase4.h4":"Voies principales et grilles","phase4.body":"Deux routes principales parallèles, puis des connexions entre elles — souvent appelées une « grille » par les R5.",
+"phase5.h4":"Approche du centre — construire une toile","phase5.body":"Arrêtez de construire des routes uniques. À ce stade, la perte d'une seule case ne peut plus arrêter l'avancée — c'est tout l'intérêt.",
+"sec8.h2":"Discipline des joueurs","sec8.p":"Un bon joueur ne cherche pas que des kills. Ce que les R4 et R5 attendent réellement :",
+"good1":"Capture les cases demandées","good2":"Libère une case immédiatement si un officier en a besoin pour une meilleure route","good3":"Reste disponible pour reprendre rapidement une case perdue","good4":"Suit les routes d'avancée prévues plutôt que d'agir seul",
+"bad1":"Capturer des cases isolées qui ne mènent nulle part","bad2":"Remplir toute sa limite de 40 cases alors que l'alliance a besoin d'ouvrir des routes","bad3":"Refuser de libérer une case quand un R4 le demande","bad4":"Attaquer sans vérifier que la connexion au réseau est toujours active",
+"sec8.calloutLbl":"POUR VISER LE HAUT DU CLASSEMENT",
+"sec8.calloutBody":"Connectez-vous pour chaque ouverture majeure — villes, autels, grandes batailles. Gardez de l'endurance et des accélérateurs en réserve pour les jours de guerre plutôt que de les épuiser trop tôt. Ne gaspillez pas vos emplacements de cases sur des positions sans intérêt — privilégiez celles qui ouvrent des routes ou protègent des points clés. Si vous n'êtes pas un joueur de haut niveau, la capture et la défense de cases est vraiment l'une des contributions les plus précieuses de cette saison.",
+"footer.line1":"TERRES D'ORIGINE // BRIEFING DE TERRAIN — SAISON 6","footer.line2":"ÉTAT 362 — JUMELÉ AVEC 364"
+},
+de:{
+"meta.title":"URSPRUNGSLAND // Lagebriefing — Saison 6",
+"hero.title":"URSPRUNGSLAND",
+"hero.sub":"Vollständiges Lagebriefing zum Feld-Eroberungssystem der Saison 6 — wie Territorium wirklich funktioniert, warum manche Felder wichtiger sind als die Städte dahinter, und die Aufbaureihenfolge, mit der eine Allianz unbeschadet ins Kartenzentrum vordringt.",
+"hero.tag1.label":"FRAKTIONSKRIEG","hero.tag1.value":"362 / 364 GEPAART",
+"hero.tag2.label":"FELDLIMIT","hero.tag2.value":"40",
+"hero.tag3.label":"ALTÄRE FREIGESCHALTET","hero.tag3.value":"WOCHE 3",
+"toc.label":"INHALT",
+"toc.tiles":"01 — Das Feldsystem","toc.portals":"02 — Portale","toc.objectives":"03 — Städte, Altäre, Belohnungen",
+"toc.timeline":"04 — Saisonzeitplan","toc.roles":"05 — Allianzrollen","toc.routes":"06 — Routenstrategie",
+"toc.buildout":"07 — Phasenweiser Aufbau","toc.discipline":"08 — Spielerdisziplin",
+"sec1.h2":"Das Feldsystem",
+"sec1.lead":"Das ist die größte Neuerung dieser Saison. Freie Bewegung über die Karte gibt es nicht mehr — alles wird Feld für Feld aufgebaut, weshalb schwächere Spieler plötzlich genauso wichtig sind wie starke Accounts.",
+"sec1.li1":"Ein Feld entsteht, indem ein APC dorthin geschickt wird — <strong>nicht</strong> durch Herstellung in einem Gebäude.",
+"sec1.li2":"Ihr könnt <strong>nur</strong> ein Feld erobern, das an ein bereits von euch oder eurer Allianz kontrolliertes Feld angrenzt.",
+"sec1.li3":"Um eine Stadt anzugreifen, muss diese mit eurem Feldnetzwerk verbunden sein.",
+"sec1.li4":"Erobert der Gegner ein Feld mitten in eurer Linie zurück, ist alles dahinter abgeschnitten, bis die Verbindung wiederhergestellt ist.",
+"sec1.diagramCap1":"// BEISPIEL — Vorrücken auf eine Stadt","sec1.diagramCap2":"// wenn der Gegner das mittlere Feld zurückerobert","city.label":"STADT",
+"sec1.calloutLbl1":"WARUM DAS WICHTIG IST",
+"sec1.calloutBody1":"Alles hinter dem verlorenen Feld ist abgeschnitten — unnutzbar, bis es zurückerobert wird. Genau deshalb verteidigen Allianzen manche „wertlosen“ Felder erbitterter als die Städte selbst. Es geht nie um das Feld an sich — sondern darum, was es verbindet.",
+"sec1.calloutLbl2":"FELDLIMIT — BESTÄTIGT",
+"sec1.calloutBody2":"Jeder Spieler ist auf <strong>40 Felder</strong> begrenzt. Ist das Limit erreicht, müsst ihr Felder freigeben oder auf Platz warten. Haltet 30–40 <em>nützliche</em> Felder — verschwendet euer Limit nicht mit Sackgassen-Positionen.",
+"sec2.h2":"Portale",
+"sec2.body":"Sobald eure Allianz genug zusammenhängendes Gebiet kontrolliert (ein 2×2-Block), könnt ihr ein Portal bauen — sofortige APC-Bewegung und Verstärkung an die Front statt eines Marsches.",
+"sec2.badCap":"// SCHLECHTE PLATZIERUNG","sec2.badVerdict":"Ganz an der Spitze des Vorstoßes platziert — fällt die Front zurück, wird das Portal isoliert und zum ersten Ziel.",
+"sec2.goodCap":"// GUTE PLATZIERUNG","sec2.goodVerdict":"Etwas hinter der Front platziert, geschützt durch mehrere Zugangswege auf beiden Seiten.",
+"sec3.h2":"Städte, Altäre & Belohnungen",
+"sec3.p1":"<strong>Städte</strong> erzeugen Einfluss und bestimmen die Fraktionswertung. Höherstufige Städte — besonders die zentrale — sind deutlich mehr wert, weshalb sich Fraktionen auf wenige Hauptziele konzentrieren, statt sich zu verzetteln.",
+"sec3.p2":"<strong>Altäre</strong> erscheinen ab etwa Woche 3 und gewähren mächtige Allianzfähigkeiten — Schilde, raketenartige Angriffe und mehr. Ihr könnt nicht alle Fähigkeiten gleichzeitig besitzen; die Wahl prägt die gesamte Strategie der Allianz für den Rest der Saison.",
+"sec3.p3":"<strong>Kriegsverdienste</strong> werden individuell durch Eroberungen, Verteidigung und Unterstützung verdient. Sie schalten persönliche Boni und Belohnungen zum Saisonende zusätzlich zur Fraktionswertung frei — individueller Einsatz zählt also weiterhin, selbst in einem teamorientierten System.",
+"sec4.h2":"Saisonzeitplan","th.week":"Woche","th.focus":"Fokus","th.priority":"Top-Priorität",
+"row1.focus":"Expansion","row1.pri":"So viele Felder und Oasen wie möglich erobern",
+"row2.focus":"Erste Städte","row2.pri":"Niedrigstufige Städte sichern",
+"row3.focus":"Altäre beginnen","row3.pri":"Allianzfähigkeiten entwickeln",
+"row4.focus":"Stellungskrieg","row4.pri":"Große Offensiven vorbereiten",
+"row5.focus":"Großkämpfe","row5.pri":"Schlüsselstädte kontrollieren",
+"row6.focus":"Totaler Krieg","row6.pri":"Strategische Punkte dominieren",
+"row7.focus":"Letzte Schlacht","row7.pri":"Zentrum kontrollieren, Einfluss maximieren",
+"row8.focus":"Abschluss","row8.pri":"Letzte Punkte & Belohnungen sichern",
+"sec5.h2":"Typische Aufteilung der Allianzrollen",
+"sec5.body":"Auf gut organisierten Servern teilen sich Allianzen die Rollen natürlich auf, statt dass jede alles macht.",
+"role1.title":"Speerspitze","role1.li1":"Erobert die großen Städte","role1.li2":"Führt die großen Schlachten an","role1.li3":"Hält die wertvollsten Ziele",
+"role2.title":"Unterstützung","role2.li1":"Schützt die Flanken","role2.li2":"Verstärkt die Speerspitze","role2.li3":"Füllt Verluste an den Hauptfronten auf",
+"role3.title":"Logistik / Route","role3.li1":"Baut Feldkorridore","role3.li2":"Erobert Oasen","role3.li3":"Verteidigt Schlüsselpassagen","role3.li4":"Bereitet zukünftige Offensiven vor",
+"sec5.calloutLbl":"OFT DIE ENTSCHEIDENDSTE ROLLE",
+"sec5.calloutBody":"Die Logistikrolle ist nicht glamourös, aber ein Kampf wird oft allein dadurch gewonnen oder verloren, ob die Routen und Oasen hinter der Front halten. Oasen produzieren insbesondere Heiliges Wasser, mit dem euer saisonaler Obelisk verbessert und die Resistenz erhöht wird — mehr kontrollierte Oasen bedeuten schnelleren Fortschritt für alle.",
+"sec6.h2":"Routenstrategie",
+"diagCap.choke":"// ENGPASS — ein Feld blockiert einen ganzen Sektor",
+"sec6.p1":"Wer ihn hält, blockiert eine ganze Route. Wer ihn verliert, öffnet dem Gegner eine völlig neue Angriffsroute. Die besten Strategen priorisieren diese Punkte vor allem anderen.",
+"diagCap.cross":"// KREUZUNG — ein Feld, mehrere Richtungen",
+"sec6.p2":"Wer sie kontrolliert, kann Offensiven starten, gegnerische Bewegungen abschneiden und leichter verteidigen — alles von einer einzigen Position aus.",
+"diagCap.single":"// EINZELLINIE","verdictBad1":"Ein einziges verlorenes Feld in der Mitte stoppt alles, ohne Ausnahme.",
+"diagCap.double":"// DOPPELROUTE","verdictGood1":"Verliert ihr ein Feld auf einer Linie, hält die parallele Linie die Route offen.",
+"sec7.h2":"Phasenweiser Aufbau",
+"phase1.h4":"Tag 1–3 — Schnell aus dem Startgebiet","phase1.body":"Versucht nicht, jedes Feld zu erobern. Baut einen Hauptkorridor zu den nächsten Oasen — eure Quelle für Heiliges Wasser und Resistenz. Starke Accounts bleiben für Hauptziele verfügbar; Spieler im Mittelfeld sichern Oasen und Nebenrouten.",
+"phase2.h4":"Tag 4–10 — Erste Städte öffnen","phase2.body":"Baut keine einzelne direkte Linie zur Stadt — ein abgeschnittenes Feld stoppt alles. Baut ein <strong>Dreieck</strong>: zwei zusammenlaufende Routen, sodass die Stadt versorgt bleibt, selbst wenn eine Seite gekappt wird.",
+"phase3.h4":"Nach Woche 1 — Knotenpunkt-Bildung","phase3.body":"Große Allianzen bauen Knotenpunkte — eine zentrale Kreuzung mit Ausläufern zu einer Stadt, einem Altar und einer Oase. Fällt eine Front, bleibt der Rest der Position stabil.",
+"phase4.h4":"Hauptrouten & Raster","phase4.body":"Zwei parallele Hauptrouten, dann Querverbindungen dazwischen — von R5 oft „Raster“ genannt.",
+"phase5.h4":"Annäherung ans Zentrum — ein Netz bauen","phase5.body":"Hört auf, einzelne Routen zu bauen. In dieser Phase kann der Verlust eines einzigen Feldes den Vorstoß nicht mehr stoppen — genau darum geht es.",
+"sec8.h2":"Spielerdisziplin","sec8.p":"Ein guter Spieler jagt nicht nur Kills. Was R4 und R5 wirklich erwarten:",
+"good1":"Erobert die angeforderten Felder","good2":"Gibt ein Feld sofort frei, wenn ein Offizier es für eine bessere Route benötigt","good3":"Bleibt verfügbar, um ein verlorenes Feld schnell zurückzuerobern","good4":"Folgt den geplanten Vorstoßrouten, statt eigenmächtig zu handeln",
+"bad1":"Isolierte Felder erobern, die nichts verbinden","bad2":"Das komplette 40er-Limit auffüllen, während die Allianz neue Routen braucht","bad3":"Sich weigern, ein Feld freizugeben, wenn ein R4 danach fragt","bad4":"Angreifen, ohne zu prüfen, ob die Netzwerkverbindung noch besteht",
+"sec8.calloutLbl":"FÜR EINEN SPITZENPLATZ",
+"sec8.calloutBody":"Loggt euch bei jeder großen Eröffnung ein — Städte, Altäre, Großkämpfe. Behaltet Ausdauer und Beschleuniger für Kriegstage in Reserve, statt sie früh zu verbrauchen. Verschwendet keine Feldplätze auf tote Positionen — bevorzugt jene, die Routen öffnen oder Schlüsselpunkte schützen. Seid ihr kein Top-Account, ist Felderoberung und -verteidigung wirklich einer der wertvollsten Beiträge dieser Saison.",
+"footer.line1":"URSPRUNGSLAND // LAGEBRIEFING — SAISON 6","footer.line2":"STAAT 362 — GEPAART MIT 364"
+},
+nl:{
+"meta.title":"OORSPRONGSLANDEN // Veldbriefing — Seizoen 6",
+"hero.title":"OORSPRONGSLANDEN",
+"hero.sub":"Volledige briefing over het tegel-veroveringssysteem van Seizoen 6 — hoe grondgebied écht werkt, waarom sommige tegels belangrijker zijn dan de steden erachter, en de opbouwvolgorde waarmee een alliantie ongeschonden het centrum van de kaart bereikt.",
+"hero.tag1.label":"FACTIE-OORLOG","hero.tag1.value":"362 / 364 GEKOPPELD",
+"hero.tag2.label":"TEGELLIMIET","hero.tag2.value":"40",
+"hero.tag3.label":"ALTAREN ONTGRENDELD","hero.tag3.value":"WEEK 3",
+"toc.label":"INHOUD",
+"toc.tiles":"01 — Het tegelsysteem","toc.portals":"02 — Portalen","toc.objectives":"03 — Steden, altaren, beloningen",
+"toc.timeline":"04 — Seizoensplanning","toc.roles":"05 — Alliantierollen","toc.routes":"06 — Routestrategie",
+"toc.buildout":"07 — Opbouw per fase","toc.discipline":"08 — Spelersdiscipline",
+"sec1.h2":"Het tegelsysteem",
+"sec1.lead":"Dit is de grootste verandering dit seizoen. Vrij bewegen over de kaart bestaat niet meer — alles wordt tegel voor tegel opgebouwd, en daarom tellen spelers met minder kracht nu net zo hard mee als grote accounts.",
+"sec1.li1":"Een tegel ontstaat door er een APC naartoe te sturen — <strong>niet</strong> door hem te bouwen in een gebouw.",
+"sec1.li2":"Je kunt <strong>alleen</strong> een tegel veroveren die grenst aan een tegel die jij of je alliantie al beheert.",
+"sec1.li3":"Om een stad aan te vallen, moet die stad verbonden zijn met je tegelnetwerk.",
+"sec1.li4":"Als de vijand een tegel middenin je lijn heroverd, wordt alles daarachter afgesneden totdat de verbinding hersteld is.",
+"sec1.diagramCap1":"// VOORBEELD — oprukken naar een stad","sec1.diagramCap2":"// als de vijand de middelste tegel heroverd","city.label":"STAD",
+"sec1.calloutLbl1":"WAAROM DIT BELANGRIJK IS",
+"sec1.calloutBody1":"Alles achter die verloren tegel is afgesneden — onbruikbaar tot hij heroverd is. Precies daarom verdedigen allianties sommige „waardeloze” tegels feller dan de steden zelf. Het gaat nooit om de tegel — het gaat om wat hij verbindt.",
+"sec1.calloutLbl2":"TEGELLIMIET — BEVESTIGD",
+"sec1.calloutBody2":"Elke speler heeft een limiet van <strong>40 tegels</strong>. Bij die limiet moet je tegels vrijgeven of wachten op ruimte. Houd 30–40 <em>nuttige</em> tegels aan — verspil je limiet niet aan doodlopende posities.",
+"sec2.h2":"Portalen",
+"sec2.body":"Zodra je alliantie genoeg aaneengesloten grondgebied beheert (een blok van 2×2), kun je een portaal bouwen — directe APC-verplaatsing en versterking naar het front in plaats van marcheren.",
+"sec2.badCap":"// SLECHTE PLAATSING","sec2.badVerdict":"Staat helemaal aan de rand van de opmars — als het front terugvalt, raakt het geïsoleerd en wordt het eerste doelwit.",
+"sec2.goodCap":"// GOEDE PLAATSING","sec2.goodVerdict":"Staat iets achter het front, beschermd door meerdere toegangsroutes aan beide kanten.",
+"sec3.h2":"Steden, altaren & beloningen",
+"sec3.p1":"<strong>Steden</strong> genereren Invloed en bepalen de factie-ranglijst. Hogere steden — vooral de centrale — zijn veel meer waard, waardoor facties zich richten op enkele hoofddoelen in plaats van zich te versnipperen.",
+"sec3.p2":"<strong>Altaren</strong> verschijnen vanaf ongeveer week 3 en geven krachtige alliantievaardigheden — schilden, raketachtige aanvallen en meer. Je kunt niet alle vaardigheden tegelijk hebben; welke je kiest, bepaalt de hele strategie van de alliantie voor de rest van het seizoen.",
+"sec3.p3":"<strong>Oorlogsverdiensten</strong> verdien je individueel via veroveringen, verdediging en steun. Deze ontgrendelen persoonlijke bonussen en beloningen aan het einde van het seizoen, naast de factie-ranglijst — individuele inzet blijft dus tellen, zelfs in een teamgericht systeem.",
+"sec4.h2":"Seizoensplanning","th.week":"Week","th.focus":"Focus","th.priority":"Topprioriteit",
+"row1.focus":"Uitbreiding","row1.pri":"Zoveel mogelijk tegels en oases veroveren",
+"row2.focus":"Eerste steden","row2.pri":"Steden van laag niveau veiligstellen",
+"row3.focus":"Altaren beginnen","row3.pri":"Alliantievaardigheden ontwikkelen",
+"row4.focus":"Positieoorlog","row4.pri":"Grote offensieven voorbereiden",
+"row5.focus":"Grootschalige veldslagen","row5.pri":"Sleutelsteden beheersen",
+"row6.focus":"Totale oorlog","row6.pri":"Strategische punten domineren",
+"row7.focus":"Laatste veldslag","row7.pri":"Centrum beheersen, invloed maximaliseren",
+"row8.focus":"Afsluiting","row8.pri":"Laatste punten en beloningen binnenhalen",
+"sec5.h2":"Hoe alliantierollen doorgaans verdeeld worden",
+"sec5.body":"Op goed georganiseerde servers verdelen allianties op natuurlijke wijze rollen, in plaats van dat elke alliantie alles doet.",
+"role1.title":"Speerpunt","role1.li1":"Verovert de grote steden","role1.li2":"Leidt de grote veldslagen","role1.li3":"Houdt de meest waardevolle doelen vast",
+"role2.title":"Ondersteuning","role2.li1":"Beschermt de flanken","role2.li2":"Versterkt het speerpunt","role2.li3":"Vult verliezen aan op de hoofdfronten",
+"role3.title":"Logistiek / Route","role3.li1":"Bouwt tegelcorridors","role3.li2":"Verovert oases","role3.li3":"Verdedigt sleuteldoorgangen","role3.li4":"Bereidt toekomstige offensieven voor",
+"sec5.calloutLbl":"VAAK DE MEEST BESLISSENDE ROL",
+"sec5.calloutBody":"De logistieke rol is niet glamoureus, maar een gevecht wordt vaak volledig gewonnen of verloren op basis van of de routes en oases achter het front standhouden. Oases produceren met name Heilig Water, gebruikt om je seizoensobelisk te upgraden en je weerstand te verhogen — meer oases onder controle betekent snellere algehele voortgang voor iedereen.",
+"sec6.h2":"Routestrategie",
+"diagCap.choke":"// KNELPUNT — één tegel blokkeert een hele sector",
+"sec6.p1":"Wie het vasthoudt, blokkeert een hele route. Wie het verliest, opent voor de vijand een compleet nieuwe aanvalsroute. De beste strategen geven deze punten voorrang boven al het andere.",
+"diagCap.cross":"// KRUISPUNT — één tegel, meerdere richtingen",
+"sec6.p2":"Wie het beheerst, kan offensieven starten, vijandelijke bewegingen afsnijden en makkelijker verdedigen — allemaal vanuit één positie.",
+"diagCap.single":"// ENKELE LIJN","verdictBad1":"Eén verloren tegel in het midden stopt alles, zonder uitzondering.",
+"diagCap.double":"// DUBBELE SNELWEG","verdictGood1":"Verlies je een tegel op één lijn — de parallelle lijn houdt de route open.",
+"sec7.h2":"Opbouw per fase",
+"phase1.h4":"Dag 1–3 — Snel weg uit het startgebied","phase1.body":"Probeer niet elke tegel te veroveren. Bouw één hoofdcorridor naar de dichtstbijzijnde oases — jouw bron van Heilig Water en weerstand. Grote accounts blijven beschikbaar voor hoofddoelen; middenmoters beveiligen oases en zijroutes.",
+"phase2.h4":"Dag 4–10 — Eerste steden gaan open","phase2.body":"Bouw geen enkele directe lijn naar de stad — één afgesneden tegel stopt alles. Bouw een <strong>driehoek</strong>: twee samenkomende routes, zodat de stad bevoorraad blijft als één kant wordt afgesneden.",
+"phase3.h4":"Na week 1 — Knooppuntvorming","phase3.body":"Grote allianties bouwen knooppunten — een centraal kruispunt met vertakkingen naar een stad, een altaar en een oase. Eén front kan instorten zonder dat de hele positie valt.",
+"phase4.h4":"Snelwegen & rasters","phase4.body":"Twee parallelle hoofdroutes, met daartussen dwarsverbindingen — door R5's vaak een „raster” genoemd.",
+"phase5.h4":"Richting het centrum — bouw een web","phase5.body":"Stop met het bouwen van enkele routes. In deze fase kan het verlies van één tegel de opmars niet meer stoppen — dat is precies het punt.",
+"sec8.h2":"Spelersdiscipline","sec8.p":"Een goede speler jaagt niet alleen op kills. Wat R4's en R5's echt verwachten:",
+"good1":"Verovert de gevraagde tegels","good2":"Geeft een tegel meteen vrij als een officier hem nodig heeft voor een betere route","good3":"Blijft beschikbaar om een verloren tegel snel te heroveren","good4":"Volgt de geplande opmarsroutes in plaats van op eigen houtje te handelen",
+"bad1":"Geïsoleerde tegels veroveren die nergens toe leiden","bad2":"De volledige limiet van 40 tegels opvullen terwijl de alliantie nieuwe routes nodig heeft","bad3":"Weigeren een tegel vrij te geven als een R4 erom vraagt","bad4":"Aanvallen zonder te checken of de verbinding met het netwerk nog actief is",
+"sec8.calloutLbl":"VOOR EEN TOPKLASSERING",
+"sec8.calloutBody":"Log in bij elke grote opening — steden, altaren, grote veldslagen. Houd stamina en versnellers achter de hand voor oorlogsdagen in plaats van ze vroeg te verbruiken. Verspil geen tegelplekken aan dode posities — geef voorrang aan tegels die routes openen of sleutelpunten bewaken. Ben je geen topspeler, dan is het veroveren en verdedigen van tegels echt een van de waardevolste bijdragen dit seizoen.",
+"footer.line1":"OORSPRONGSLANDEN // VELDBRIEFING — SEIZOEN 6","footer.line2":"STAAT 362 — GEKOPPELD MET 364"
+},
+it:{
+"meta.title":"TERRE D'ORIGINE // Briefing sul campo — Stagione 6",
+"hero.title":"TERRE D'ORIGINE",
+"hero.sub":"Briefing completo sul sistema di conquista delle caselle della Stagione 6 — come funziona davvero il territorio, perché alcune caselle contano più delle città che proteggono, e l'ordine di costruzione che porta un'alleanza al centro della mappa intatta.",
+"hero.tag1.label":"GUERRA DI FAZIONE","hero.tag1.value":"362 / 364 ABBINATI",
+"hero.tag2.label":"LIMITE CASELLE","hero.tag2.value":"40",
+"hero.tag3.label":"ALTARI SBLOCCATI","hero.tag3.value":"SETTIMANA 3",
+"toc.label":"INDICE",
+"toc.tiles":"01 — Il sistema delle caselle","toc.portals":"02 — I portali","toc.objectives":"03 — Città, altari, ricompense",
+"toc.timeline":"04 — Calendario della stagione","toc.roles":"05 — Ruoli delle alleanze","toc.routes":"06 — Strategia dei percorsi",
+"toc.buildout":"07 — Costruzione per fasi","toc.discipline":"08 — Disciplina dei giocatori",
+"sec1.h2":"Il sistema delle caselle",
+"sec1.lead":"È il cambiamento più grande di questa stagione. Non esiste più il movimento libero sulla mappa — tutto si costruisce casella per casella, ed è per questo che i giocatori meno potenti contano quanto i grandi account.",
+"sec1.li1":"Una casella si crea inviandovi un APC — <strong>non</strong> costruendola in un edificio.",
+"sec1.li2":"Potete <strong>solo</strong> conquistare una casella adiacente a una già controllata da voi o dalla vostra alleanza.",
+"sec1.li3":"Per attaccare una città, questa deve essere collegata alla vostra rete di caselle.",
+"sec1.li4":"Se il nemico riconquista una casella nel mezzo della vostra linea, tutto ciò che sta oltre viene tagliato fuori finché la connessione non viene ripristinata.",
+"sec1.diagramCap1":"// ESEMPIO — avanzata verso una città","sec1.diagramCap2":"// se il nemico riconquista la casella centrale","city.label":"CITTÀ",
+"sec1.calloutLbl1":"PERCHÉ È IMPORTANTE",
+"sec1.calloutBody1":"Tutto ciò che sta oltre la casella persa è disconnesso — inutilizzabile finché non viene ripresa. È esattamente per questo che le alleanze difendono alcune caselle „senza valore” più ferocemente delle città stesse. Non conta mai la casella in sé — conta ciò che collega.",
+"sec1.calloutLbl2":"LIMITE CASELLE — CONFERMATO",
+"sec1.calloutBody2":"Ogni giocatore è limitato a <strong>40 caselle</strong>. Al raggiungimento del limite, dovrete rilasciarne alcune o attendere spazio libero. Mantenete 30–40 caselle <em>utili</em> — non sprecate il limite su posizioni senza sbocco.",
+"sec2.h2":"I portali",
+"sec2.body":"Quando la vostra alleanza controlla abbastanza territorio connesso (un blocco 2×2), potete costruire un portale — spostamento istantaneo degli APC e rinforzi al fronte invece della marcia.",
+"sec2.badCap":"// POSIZIONAMENTO SBAGLIATO","sec2.badVerdict":"Posto proprio in punta all'avanzata — se il fronte arretra, resta isolato e diventa il primo bersaglio.",
+"sec2.goodCap":"// POSIZIONAMENTO CORRETTO","sec2.goodVerdict":"Posto leggermente dietro il fronte, protetto da più vie d'accesso su entrambi i lati.",
+"sec3.h2":"Città, altari e ricompense",
+"sec3.p1":"Le <strong>città</strong> generano Influenza e determinano la classifica di fazione. Le città di livello più alto — in particolare quella centrale — valgono molto di più, spingendo le fazioni a concentrare gli sforzi su pochi obiettivi principali invece di disperdersi.",
+"sec3.p2":"Gli <strong>altari</strong> iniziano a comparire verso la settimana 3, garantendo potenti abilità di alleanza — scudi, attacchi missilistici e altro. Non potete avere tutte le abilità contemporaneamente; le scelte fatte plasmano l'intera strategia dell'alleanza per il resto della stagione.",
+"sec3.p3":"I <strong>meriti di guerra</strong> si guadagnano individualmente tramite conquiste, difesa e supporto. Sbloccano bonus personali e ricompense di fine stagione oltre alla classifica di fazione — il contributo individuale conta quindi sempre, anche in un sistema orientato al gruppo.",
+"sec4.h2":"Calendario della stagione","th.week":"Settimana","th.focus":"Obiettivo","th.priority":"Priorità principale",
+"row1.focus":"Espansione","row1.pri":"Conquistare quante più caselle e oasi possibile",
+"row2.focus":"Prime città","row2.pri":"Mettere in sicurezza le città di basso livello",
+"row3.focus":"Inizio degli altari","row3.pri":"Sviluppare le abilità di alleanza",
+"row4.focus":"Guerra di posizione","row4.pri":"Preparare le offensive principali",
+"row5.focus":"Battaglie su larga scala","row5.pri":"Controllare le città chiave",
+"row6.focus":"Guerra totale","row6.pri":"Dominare i punti strategici",
+"row7.focus":"Battaglia finale","row7.pri":"Controllare il centro, massimizzare l'Influenza",
+"row8.focus":"Chiusura","row8.pri":"Ottenere gli ultimi punti e le ricompense",
+"sec5.h2":"Come si dividono di solito i ruoli tra alleanze",
+"sec5.body":"Sui server ben organizzati, le alleanze si dividono naturalmente i ruoli invece che fare tutto singolarmente.",
+"role1.title":"Punta di lancia","role1.li1":"Conquista le città principali","role1.li2":"Guida le grandi battaglie","role1.li3":"Mantiene gli obiettivi di maggior valore",
+"role2.title":"Supporto","role2.li1":"Protegge i fianchi","role2.li2":"Rinforza la punta di lancia","role2.li3":"Colma le perdite sui fronti principali",
+"role3.title":"Logistica / Percorsi","role3.li1":"Costruisce corridoi di caselle","role3.li2":"Conquista le oasi","role3.li3":"Difende i passaggi chiave","role3.li4":"Prepara le offensive future",
+"sec5.calloutLbl":"SPESSO IL RUOLO PIÙ DECISIVO",
+"sec5.calloutBody":"Il ruolo logistico non è glamour, ma una battaglia si vince o si perde spesso in base al fatto che i percorsi e le oasi dietro il fronte reggano o meno. Le oasi in particolare producono Acqua Sacra, usata per potenziare l'Obelisco stagionale e aumentare la resistenza — più oasi sotto controllo significano progressi più rapidi per tutti.",
+"sec6.h2":"Strategia dei percorsi",
+"diagCap.choke":"// PUNTO DI STROZZATURA — una casella blocca un intero settore",
+"sec6.p1":"Chi lo tiene blocca un intero percorso. Chi lo perde apre al nemico una nuova via d'attacco. I migliori strateghi danno priorità a questi punti prima di ogni altra cosa.",
+"diagCap.cross":"// INCROCIO — una casella, più direzioni",
+"sec6.p2":"Chi lo controlla può lanciare offensive, tagliare i movimenti nemici e difendersi più facilmente — tutto da un'unica posizione.",
+"diagCap.single":"// LINEA UNICA","verdictBad1":"Una sola casella persa al centro blocca tutto, senza eccezioni.",
+"diagCap.double":"// DOPPIA VIA","verdictGood1":"Se perdete una casella su una linea, la linea parallela mantiene il percorso attivo.",
+"sec7.h2":"Costruzione per fasi",
+"phase1.h4":"Giorni 1–3 — Lasciare rapidamente la zona di partenza","phase1.body":"Non cercate di conquistare ogni casella. Costruite un corridoio principale verso le oasi più vicine — la vostra fonte di Acqua Sacra e resistenza. I grandi account restano disponibili per gli obiettivi principali; i giocatori di livello medio mettono in sicurezza oasi e percorsi secondari.",
+"phase2.h4":"Giorni 4–10 — Apertura delle prime città","phase2.body":"Non costruite un'unica linea diretta verso la città — una casella tagliata blocca tutto. Costruite un <strong>triangolo</strong>: due percorsi convergenti, così se un lato viene tagliato, l'altro continua a rifornire la città.",
+"phase3.h4":"Dopo la settimana 1 — Formazione di uno snodo","phase3.body":"Le grandi alleanze costruiscono snodi — un incrocio centrale che si dirama verso una città, un altare e un'oasi. Un fronte può crollare senza far cadere l'intera posizione.",
+"phase4.h4":"Vie principali e griglie","phase4.body":"Due percorsi principali paralleli, poi collegamenti trasversali tra loro — spesso chiamati „griglia” dagli R5.",
+"phase5.h4":"Avvicinamento al centro — costruire una rete","phase5.body":"Smettete di costruire percorsi singoli. A questo punto, la perdita di una sola casella non può più fermare l'avanzata — è proprio questo il punto.",
+"sec8.h2":"Disciplina dei giocatori","sec8.p":"Un buon giocatore non cerca solo kill. Ciò che gli R4 e gli R5 si aspettano davvero:",
+"good1":"Conquista le caselle richieste","good2":"Rilascia subito una casella se un ufficiale ne ha bisogno per un percorso migliore","good3":"Resta disponibile per riconquistare rapidamente una casella persa","good4":"Segue i percorsi di avanzata pianificati invece di agire per conto proprio",
+"bad1":"Conquistare caselle isolate che non portano da nessuna parte","bad2":"Riempire l'intero limite di 40 caselle mentre l'alleanza ha bisogno di aprire nuovi percorsi","bad3":"Rifiutarsi di rilasciare una casella quando un R4 lo chiede","bad4":"Attaccare senza verificare che la connessione alla rete sia ancora attiva",
+"sec8.calloutLbl":"PER UN PIAZZAMENTO DI VERTICE",
+"sec8.calloutBody":"Collegatevi per ogni grande apertura — città, altari, grandi battaglie. Tenete resistenza e acceleratori di riserva per i giorni di guerra invece di consumarli in anticipo. Non sprecate gli slot delle caselle su posizioni morte — date priorità a quelle che aprono percorsi o proteggono punti chiave. Se non siete un giocatore di punta, la conquista e la difesa delle caselle è davvero uno dei contributi più preziosi di questa stagione.",
+"footer.line1":"TERRE D'ORIGINE // BRIEFING SUL CAMPO — STAGIONE 6","footer.line2":"STATO 362 — ABBINATO A 364"
+},
+ar:{
+"meta.title":"أراضي الأصل // إحاطة ميدانية — الموسم 6",
+"hero.title":"أراضي الأصل",
+"hero.sub":"إحاطة ميدانية كاملة عن نظام غزو المربعات في الموسم السادس — كيف تعمل الأراضي فعليًا، ولماذا تكون بعض المربعات أهم من المدن التي تحميها، وترتيب البناء الذي يوصل التحالف إلى مركز الخريطة سليمًا.",
+"hero.tag1.label":"حرب الفصائل","hero.tag1.value":"362 / 364 مزدوجتان",
+"hero.tag2.label":"حد المربعات","hero.tag2.value":"40",
+"hero.tag3.label":"فتح المذابح","hero.tag3.value":"الأسبوع 3",
+"toc.label":"المحتويات",
+"toc.tiles":"01 — نظام المربعات","toc.portals":"02 — البوابات","toc.objectives":"03 — المدن والمذابح والمكافآت",
+"toc.timeline":"04 — الجدول الزمني للموسم","toc.roles":"05 — أدوار التحالفات","toc.routes":"06 — استراتيجية الطرق",
+"toc.buildout":"07 — البناء على مراحل","toc.discipline":"08 — انضباط اللاعبين",
+"sec1.h2":"نظام المربعات",
+"sec1.lead":"هذا هو أكبر تغيير في هذا الموسم. لم تعد الحركة الحرة عبر الخريطة ممكنة — كل شيء يُبنى مربعًا تلو الآخر، ولهذا السبب أصبح اللاعبون الأقل قوة مهمين بقدر أهمية الحسابات الكبيرة.",
+"sec1.li1":"يُنشأ المربع بإرسال APC إليه — <strong>وليس</strong> بصنعه داخل مبنى.",
+"sec1.li2":"يمكنك <strong>فقط</strong> الاستيلاء على مربع مجاور لمربع تسيطر عليه أنت أو تحالفك بالفعل.",
+"sec1.li3":"لمهاجمة مدينة، يجب أن تكون تلك المدينة متصلة بشبكة مربعاتك.",
+"sec1.li4":"إذا استعاد العدو مربعًا في منتصف خطك، يُقطع كل ما بعده حتى تتم استعادة الاتصال.",
+"sec1.diagramCap1":"// مثال — التقدم نحو مدينة","sec1.diagramCap2":"// إذا استعاد العدو المربع الأوسط","city.label":"مدينة",
+"sec1.calloutLbl1":"لماذا هذا مهم",
+"sec1.calloutBody1":"كل ما بعد ذلك المربع المفقود يصبح منقطعًا — غير قابل للاستخدام حتى تتم استعادته. لهذا السبب بالضبط تدافع التحالفات عن بعض المربعات «عديمة القيمة» بشراسة أكبر من دفاعها عن المدن نفسها. الأمر لا يتعلق أبدًا بالمربع نفسه — بل بما يربطه.",
+"sec1.calloutLbl2":"حد المربعات — مؤكد",
+"sec1.calloutBody2":"كل لاعب محدود بـ<strong>40 مربعًا</strong>. عند الوصول إلى هذا الحد، عليك تحرير مربعات أو الانتظار حتى تتوفر مساحة. حافظ على 30 إلى 40 مربعًا <em>مفيدًا</em> — لا تهدر حدك على مواقع مسدودة.",
+"sec2.h2":"البوابات",
+"sec2.body":"بمجرد أن يسيطر تحالفك على ما يكفي من الأراضي المتصلة (كتلة 2×2)، يمكنك بناء بوابة — تنقل فوري للـAPC وتعزيزات إلى الجبهة بدلاً من المسير إليها.",
+"sec2.badCap":"// موقع سيئ","sec2.badVerdict":"تقع في أقصى طرف التقدم — إذا تراجعت الجبهة، تصبح معزولة وتصبح الهدف الأول.",
+"sec2.goodCap":"// موقع جيد","sec2.goodVerdict":"تقع خلف الجبهة قليلاً، محمية بعدة طرق وصول من الجانبين.",
+"sec3.h2":"المدن والمذابح والمكافآت",
+"sec3.p1":"تولّد <strong>المدن</strong> نفوذًا وتحدد ترتيب الفصيل. المدن ذات المستوى الأعلى — وخاصة المدينة المركزية — تساوي أكثر بكثير، مما يدفع الفصائل إلى تركيز جهودها على عدد قليل من الأهداف الرئيسية بدلاً من التشتت.",
+"sec3.p2":"تبدأ <strong>المذابح</strong> بالظهور بدءًا من الأسبوع الثالث تقريبًا، وتمنح مهارات تحالف قوية — دروع، هجمات شبيهة بالصواريخ، والمزيد. لا يمكنك امتلاك كل المهارات في آن واحد؛ والاختيارات التي تُتخذ تشكّل استراتيجية التحالف بأكملها لبقية الموسم.",
+"sec3.p3":"تُكتسب <strong>مزايا الحرب</strong> بشكل فردي من خلال الاستيلاء والدفاع والدعم. وهي تفتح مكافآت شخصية ومكافآت نهاية الموسم إلى جانب ترتيب الفصيل — لذا لا تزال المساهمة الفردية مهمة، حتى في نظام يركز على الفريق.",
+"sec4.h2":"الجدول الزمني للموسم","th.week":"الأسبوع","th.focus":"التركيز","th.priority":"الأولوية الرئيسية",
+"row1.focus":"التوسع","row1.pri":"الاستيلاء على أكبر عدد ممكن من المربعات والواحات",
+"row2.focus":"المدن الأولى","row2.pri":"تأمين المدن منخفضة المستوى",
+"row3.focus":"بداية المذابح","row3.pri":"تطوير مهارات التحالف",
+"row4.focus":"حرب المواقع","row4.pri":"الإعداد للهجمات الكبرى",
+"row5.focus":"المعارك الكبرى","row5.pri":"السيطرة على المدن الرئيسية",
+"row6.focus":"الحرب الشاملة","row6.pri":"السيطرة على النقاط الاستراتيجية",
+"row7.focus":"المعركة النهائية","row7.pri":"السيطرة على المركز وتعظيم النفوذ",
+"row8.focus":"الختام","row8.pri":"جمع النقاط والمكافآت الأخيرة",
+"sec5.h2":"كيف تُقسّم أدوار التحالفات عادةً",
+"sec5.body":"في الخوادم المنظمة جيدًا، تقسّم التحالفات الأدوار بشكل طبيعي بدلاً من أن يقوم كل تحالف بكل شيء.",
+"role1.title":"رأس الحربة","role1.li1":"يستولي على المدن الكبرى","role1.li2":"يقود المعارك الكبرى","role1.li3":"يحافظ على الأهداف الأعلى قيمة",
+"role2.title":"الدعم","role2.li1":"يحمي الأجنحة","role2.li2":"يعزز رأس الحربة","role2.li3":"يعوّض الخسائر على الجبهات الرئيسية",
+"role3.title":"اللوجستيات / الطرق","role3.li1":"يبني ممرات المربعات","role3.li2":"يستولي على الواحات","role3.li3":"يدافع عن الممرات الرئيسية","role3.li4":"يُعد للهجمات المستقبلية",
+"sec5.calloutLbl":"غالبًا ما يكون الدور الأكثر حسمًا",
+"sec5.calloutBody":"دور اللوجستيات ليس براقًا، لكن المعركة غالبًا ما تُحسم بالكامل بناءً على مدى صمود الطرق والواحات خلف خط الجبهة. تنتج الواحات على وجه الخصوص الماء المقدس، المستخدم لترقية المسلة الموسمية وزيادة المقاومة — والسيطرة على مزيد من الواحات تعني تقدمًا أسرع للجميع.",
+"sec6.h2":"استراتيجية الطرق",
+"diagCap.choke":"// نقطة اختناق — مربع واحد يسد قطاعًا بأكمله",
+"sec6.p1":"من يحتفظ به يسد طريقًا كاملاً. ومن يفقده يفتح للعدو خط هجوم جديدًا تمامًا. أفضل الاستراتيجيين يمنحون الأولوية لهذه النقاط قبل أي شيء آخر.",
+"diagCap.cross":"// مفترق طرق — مربع واحد، اتجاهات متعددة",
+"sec6.p2":"من يسيطر عليه يمكنه شن هجمات، وقطع تحركات العدو، والدفاع بسهولة أكبر — كل ذلك من موقع واحد.",
+"diagCap.single":"// خط واحد","verdictBad1":"فقدان مربع واحد في المنتصف يوقف كل شيء، دون استثناء.",
+"diagCap.double":"// الطريق المزدوج","verdictGood1":"إذا فقدت مربعًا على أحد الخطين، يبقي الخط الموازي الطريق مفتوحًا.",
+"sec7.h2":"البناء على مراحل",
+"phase1.h4":"الأيام 1–3 — مغادرة منطقة الانطلاق بسرعة","phase1.body":"لا تحاول الاستيلاء على كل مربع. ابنِ ممرًا رئيسيًا واحدًا نحو أقرب الواحات — فهي مصدرك للماء المقدس والمقاومة. تبقى الحسابات الكبيرة متاحة للأهداف الرئيسية؛ ويقوم اللاعبون متوسطو المستوى بتأمين الواحات والطرق الجانبية.",
+"phase2.h4":"الأيام 4–10 — فتح المدن الأولى","phase2.body":"لا تبنِ خطًا مباشرًا واحدًا نحو المدينة — فقدان مربع واحد يوقف كل شيء. ابنِ <strong>مثلثًا</strong>: طريقان يلتقيان، بحيث إذا قُطع جانب، يستمر الآخر في تزويد المدينة.",
+"phase3.h4":"بعد الأسبوع الأول — تشكيل محور","phase3.body":"تبني التحالفات الكبرى محاور — مفترق طرق مركزي يتفرع نحو مدينة ومذبح وواحة. يمكن أن تنهار جبهة واحدة دون أن يسقط الموقع بأكمله.",
+"phase4.h4":"الطرق الرئيسية والشبكات","phase4.body":"طريقان رئيسيان متوازيان، ثم روابط عرضية بينهما — يسميها R5 غالبًا «شبكة».",
+"phase5.h4":"الاقتراب من المركز — ابنِ شبكة عنكبوتية","phase5.body":"توقف عن بناء طرق منفردة. في هذه المرحلة، لا يمكن لفقدان مربع واحد أن يوقف التقدم — وهذا بالضبط هو الهدف.",
+"sec8.h2":"انضباط اللاعبين","sec8.p":"اللاعب الجيد لا يسعى فقط وراء القتلى. ما يتوقعه R4 وR5 فعليًا:",
+"good1":"يستولي على المربعات المطلوبة","good2":"يحرر مربعًا فورًا إذا احتاجه ضابط لطريق أفضل","good3":"يبقى متاحًا لاستعادة مربع مفقود بسرعة","good4":"يتبع طرق التقدم المخطط لها بدلاً من التصرف بمفرده",
+"bad1":"الاستيلاء على مربعات معزولة لا تؤدي إلى أي مكان","bad2":"ملء حد الـ40 مربعًا بالكامل بينما يحتاج التحالف إلى فتح طرق جديدة","bad3":"رفض تحرير مربع عندما يطلب ذلك أحد قادة R4","bad4":"الهجوم دون التحقق من أن الاتصال بالشبكة لا يزال نشطًا",
+"sec8.calloutLbl":"للحصول على مركز متقدم",
+"sec8.calloutBody":"سجّل الدخول عند كل فتح كبير — مدن، مذابح، معارك كبرى. احتفظ بالقدرة على التحمل ومسرعات الوقت كاحتياطي لأيام الحرب بدلاً من استهلاكها مبكرًا. لا تهدر أماكن مربعاتك على مواقع ميتة — أعطِ الأولوية لتلك التي تفتح طرقًا أو تحمي نقاطًا رئيسية. إن لم تكن لاعبًا ذا قوة عالية، فإن الاستيلاء على المربعات والدفاع عنها هو حقًا من أكثر المساهمات قيمة هذا الموسم.",
+"footer.line1":"أراضي الأصل // إحاطة ميدانية — الموسم 6","footer.line2":"الولاية 362 — مزدوجة مع 364"
+}
+};
+
+const LANGS = [
+  {code:'en', label:'EN'},
+  {code:'fr', label:'FR'},
+  {code:'de', label:'DE'},
+  {code:'nl', label:'NL'},
+  {code:'it', label:'IT'},
+  {code:'ar', label:'AR'}
+];
+
+function applyLanguage(lang){
+  const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    const key = el.getAttribute('data-i18n');
+    if(dict[key] !== undefined){
+      el.innerHTML = dict[key];
+    }
+  });
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  document.querySelectorAll('.langbar button').forEach(function(btn){
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  try{ localStorage.setItem('ol_lang', lang); }catch(e){}
+}
+
+function initLangBar(){
+  const bar = document.getElementById('langbar');
+  LANGS.forEach(function(l){
+    const btn = document.createElement('button');
+    btn.textContent = l.label;
+    btn.dataset.lang = l.code;
+    btn.addEventListener('click', function(){ applyLanguage(l.code); });
+    bar.appendChild(btn);
+  });
+  let saved = 'en';
+  try{ saved = localStorage.getItem('ol_lang') || 'en'; }catch(e){}
+  applyLanguage(saved);
+}
+
+initLangBar();
+</script>
 
 </body>
 </html>
