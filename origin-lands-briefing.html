@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORIGIN LANDS // Season 6 Field Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0D0A;
+    --bg-panel:#12140F;
+    --bg-panel-2:#181B14;
+    --line:#2B2F24;
+    --text:#D9DCCB;
+    --text-dim:#8A9078;
+    --green:#4E9050;
+    --green-bright:#6FCB72;
+    --blue:#34a4eb;
+    --red:#FF2400;
+    --orange:#c96a1c;
+    --amber:#E0A03C;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
+  }
+  .display{font-family:'Rajdhani', sans-serif; text-transform:uppercase; letter-spacing:0.03em;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* HERO */
+  .hero{
+    min-height:64vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:6vw 8vw 4vw;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, transparent 0%, var(--bg) 95%),
+      repeating-linear-gradient(90deg, rgba(78,144,80,0.05) 0px, rgba(78,144,80,0.05) 1px, transparent 1px, transparent 42px),
+      repeating-linear-gradient(0deg, rgba(78,144,80,0.05) 0px, rgba(78,144,80,0.05) 1px, transparent 1px, transparent 42px);
+    pointer-events:none;
+  }
+  .eyebrow{
+    color:var(--green-bright); font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem; letter-spacing:0.15em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:1.4rem;
+    position:relative; z-index:1;
+  }
+  .eyebrow::before{content:"●"; color:var(--red); font-size:0.6rem; animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.25;}}
+  .hero h1{
+    font-size:clamp(2.8rem, 8vw, 6rem);
+    font-weight:700; line-height:0.92;
+    color:#F2F3E9;
+    position:relative; z-index:1;
+  }
+  .hero h1 span{color:var(--green-bright);}
+  .hero .sub{
+    max-width:640px; margin-top:1.6rem; color:var(--text-dim);
+    font-size:1.05rem; position:relative; z-index:1;
+  }
+  .hero .tags{display:flex; gap:0.6rem; margin-top:2rem; flex-wrap:wrap; position:relative; z-index:1;}
+  .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem;
+    border:1px solid var(--line); padding:0.35rem 0.7rem;
+    color:var(--text-dim); letter-spacing:0.05em;
+  }
+  .tag strong{color:var(--amber);}
+
+  /* LAYOUT */
+  .wrap{display:flex; max-width:1320px; margin:0 auto;}
+  nav.toc{
+    width:230px; flex-shrink:0; padding:3rem 1.5rem 3rem 0;
+    position:sticky; top:0; align-self:flex-start; height:100vh;
+    overflow-y:auto; display:none;
+  }
+  @media(min-width:1050px){ nav.toc{display:block;} }
+  nav.toc .toc-label{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--text-dim); letter-spacing:0.1em; margin-bottom:1rem; padding-left:0.9rem;}
+  nav.toc a{
+    display:block; font-size:0.85rem; color:var(--text-dim); text-decoration:none;
+    padding:0.45rem 0.9rem; border-left:2px solid var(--line); margin-bottom:2px;
+    transition:all 0.15s;
+  }
+  nav.toc a:hover{color:var(--green-bright); border-left-color:var(--green-bright); background:rgba(78,144,80,0.06);}
+
+  main{flex:1; min-width:0; padding:3rem 6vw 6rem;}
+  @media(min-width:1050px){ main{padding:3rem 4vw 6rem 3rem;} }
+
+  section{margin-bottom:5rem; scroll-margin-top:2rem;}
+  .sec-head{display:flex; align-items:baseline; gap:1rem; margin-bottom:1.6rem; border-bottom:1px solid var(--line); padding-bottom:0.8rem;}
+  .sec-num{font-family:'IBM Plex Mono', monospace; color:var(--amber); font-size:0.9rem;}
+  .sec-head h2{font-size:1.9rem; font-weight:700; color:#F2F3E9;}
+  p{margin-bottom:1rem; color:var(--text); max-width:72ch;}
+  .lead{font-size:1.1rem; color:var(--text); max-width:70ch;}
+
+  .callout{
+    border-left:3px solid var(--amber); background:rgba(224,160,60,0.06);
+    padding:1rem 1.3rem; margin:1.4rem 0; max-width:70ch;
+  }
+  .callout.critical{border-left-color:var(--red); background:rgba(255,36,0,0.07);}
+  .callout .lbl{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.1em; color:var(--amber); margin-bottom:0.4rem;}
+  .callout.critical .lbl{color:var(--red);}
+
+  ul{margin:0.8rem 0 1.2rem 1.2rem; max-width:70ch;}
+  li{margin-bottom:0.4rem;}
+
+  /* TILE GRID DIAGRAMS */
+  .diagram{
+    background:var(--bg-panel); border:1px solid var(--line);
+    padding:1.6rem; margin:1.4rem 0; max-width:640px;
+  }
+  .diagram .cap{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--text-dim); margin-bottom:0.9rem; letter-spacing:0.03em;}
+  .row{display:flex; gap:6px; align-items:center; margin-bottom:6px;}
+  .tile{
+    width:34px; height:34px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:0.65rem;
+    border-radius:2px;
+  }
+  .tile.c{background:var(--green); box-shadow:0 0 8px rgba(78,144,80,0.5);}
+  .tile.f{background:#1E2318; border:1px dashed var(--line);}
+  .tile.e{background:var(--red); box-shadow:0 0 8px rgba(255,36,0,0.5);}
+  .tile.node{background:var(--blue); box-shadow:0 0 10px rgba(52,164,235,0.6); border-radius:50%; font-size:1rem;}
+  .tile.oasis{background:var(--amber); font-size:1rem;}
+  .label-city{
+    font-family:'Rajdhani', sans-serif; font-weight:700; text-transform:uppercase;
+    background:var(--bg-panel-2); border:1px solid var(--line); padding:0.35rem 0.8rem;
+    font-size:0.85rem; display:flex; align-items:center; height:34px;
+  }
+  .connector{width:16px; height:2px; background:var(--line);}
+  .connector.vert{width:2px; height:16px; margin-left:16px;}
+
+  .compare{display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; max-width:720px;}
+  @media(max-width:600px){.compare{grid-template-columns:1fr;}}
+  .compare .diagram{margin:0;}
+  .verdict{font-size:0.8rem; font-family:'IBM Plex Mono', monospace; margin-top:0.7rem;}
+  .verdict.bad{color:var(--red);}
+  .verdict.good{color:var(--green-bright);}
+
+  /* TIMELINE TABLE */
+  table{width:100%; border-collapse:collapse; max-width:900px; margin:1rem 0 1.6rem;}
+  th, td{text-align:left; padding:0.7rem 1rem; border-bottom:1px solid var(--line); font-size:0.92rem;}
+  th{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.08em; color:var(--text-dim); text-transform:uppercase;}
+  td.wk{font-family:'IBM Plex Mono', monospace; color:var(--amber);}
+
+  /* ROLE CARDS */
+  .roles{display:grid; grid-template-columns:repeat(3, 1fr); gap:1.1rem; max-width:920px;}
+  @media(max-width:760px){.roles{grid-template-columns:1fr;}}
+  .role-card{background:var(--bg-panel); border:1px solid var(--line); padding:1.4rem; border-top:3px solid var(--blue);}
+  .role-card.support{border-top-color:var(--amber);}
+  .role-card.logistics{border-top-color:var(--green-bright);}
+  .role-card h3{font-family:'Rajdhani', sans-serif; text-transform:uppercase; font-size:1.15rem; margin-bottom:0.6rem; color:#F2F3E9;}
+  .role-card ul{margin:0.6rem 0 0 1.1rem;}
+  .role-card li{font-size:0.9rem; color:var(--text-dim);}
+
+  /* PHASE STEPS */
+  .phase{display:flex; gap:1.4rem; margin-bottom:2.2rem; max-width:800px;}
+  .phase .pnum{
+    font-family:'Rajdhani', sans-serif; font-weight:700; font-size:1.6rem;
+    color:var(--bg); background:var(--green-bright); width:44px; height:44px; flex-shrink:0;
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+  }
+  .phase-body h4{font-family:'Rajdhani', sans-serif; text-transform:uppercase; font-size:1.1rem; margin-bottom:0.4rem; color:#F2F3E9;}
+
+  /* CHECKLIST */
+  .checklist{max-width:640px; background:var(--bg-panel); border:1px solid var(--line); padding:1.4rem 1.6rem;}
+  .checklist .item{display:flex; gap:0.7rem; padding:0.5rem 0; border-bottom:1px solid var(--line); font-size:0.92rem;}
+  .checklist .item:last-child{border-bottom:none;}
+  .checklist .item.good::before{content:"✓"; color:var(--green-bright); font-weight:700; flex-shrink:0;}
+  .checklist .item.bad::before{content:"✕"; color:var(--red); font-weight:700; flex-shrink:0;}
+
+  footer{
+    max-width:1320px; margin:0 auto; padding:2.4rem 6vw 3rem; border-top:1px solid var(--line);
+    color:var(--text-dim); font-family:'IBM Plex Mono', monospace; font-size:0.78rem;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.6rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>ORIGIN <span>LANDS</span></h1>
+  <p class="sub">Full field briefing on the Season 6 tile-conquest system — how territory actually works, why some tiles matter more than the cities behind them, and the build order that gets an alliance to the centre of the map intact.</p>
+  <div class="tags">
+    <span class="tag">FACTION WAR — <strong>362 / 364 PAIRED</strong></span>
+    <span class="tag">TILE LIMIT — <strong>40</strong></span>
+    <span class="tag">ALTARS UNLOCK — <strong>WEEK 3</strong></span>
+  </div>
+</div>
+
+<div class="wrap">
+<nav class="toc">
+  <div class="toc-label">CONTENTS</div>
+  <a href="#tiles">01 — The Tile System</a>
+  <a href="#portals">02 — Portals</a>
+  <a href="#objectives">03 — Cities, Altars, Rewards</a>
+  <a href="#timeline">04 — Season Timeline</a>
+  <a href="#roles">05 — Alliance Roles</a>
+  <a href="#routes">06 — Route Strategy</a>
+  <a href="#buildout">07 — Phase Buildout</a>
+  <a href="#discipline">08 — Player Discipline</a>
+</nav>
+
+<main>
+
+<section id="tiles">
+  <div class="sec-head"><span class="sec-num">01</span><h2>The Tile System</h2></div>
+  <p class="lead">This is the single biggest change this season. There's no more free movement across the map — everything is built tile by tile, and it's the reason low-power players suddenly matter as much as whales.</p>
+  <ul>
+    <li>A tile is created by sending an APC to occupy it — <strong>not</strong> crafted in a building.</li>
+    <li>You can <strong>only</strong> capture a tile adjacent to one you or your alliance already controls.</li>
+    <li>To attack a city, that city must be connected to your tile network.</li>
+    <li>If the enemy recaptures a tile mid-line, everything past it is cut off until the connection is restored.</li>
+  </ul>
+
+  <div class="diagram">
+    <div class="cap">// EXAMPLE — advancing toward a city</div>
+    <div class="row">
+      <div class="tile c">A</div><div class="connector"></div>
+      <div class="tile c">X</div><div class="connector"></div>
+      <div class="tile c">X</div><div class="connector"></div>
+      <div class="label-city">CITY</div>
+    </div>
+    <div class="cap" style="margin-top:0.9rem;">// if the enemy retakes the middle tile</div>
+    <div class="row">
+      <div class="tile c">A</div><div class="connector"></div>
+      <div class="tile e">✕</div><div class="connector"></div>
+      <div class="tile c">X</div><div class="connector"></div>
+      <div class="label-city">CITY</div>
+    </div>
+  </div>
+
+  <div class="callout critical">
+    <div class="lbl">WHY THIS MATTERS</div>
+    Everything past that lost tile is disconnected — unusable until it's retaken. This is exactly why alliances defend some "worthless" tiles more fiercely than the cities themselves. It's never about the tile — it's about what it keeps connected.
+  </div>
+
+  <div class="callout">
+    <div class="lbl">TILE LIMIT — CONFIRMED</div>
+    Each player is capped at <strong>40 tiles</strong>. Once you hit it, you release tiles or wait for space. Keep 30–40 <em>useful</em> tiles — don't burn your cap on dead-end positions.
+  </div>
+</section>
+
+<section id="portals">
+  <div class="sec-head"><span class="sec-num">02</span><h2>Portals</h2></div>
+  <p>Once your alliance controls enough connected territory (a 2×2 block), you can build a portal — instant APC movement and reinforcement to the front instead of marching in.</p>
+
+  <div class="compare">
+    <div>
+      <div class="diagram">
+        <div class="cap">// BAD PLACEMENT</div>
+        <div class="row">
+          <div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div>
+          <div class="tile node">◎</div>
+        </div>
+      </div>
+      <div class="verdict bad">Sits at the very tip of the advance — if the front falls back, it's isolated and becomes the first target.</div>
+    </div>
+    <div>
+      <div class="diagram">
+        <div class="cap">// GOOD PLACEMENT</div>
+        <div class="row"><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div></div>
+        <div class="row"><div class="tile node">◎</div></div>
+        <div class="row"><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div></div>
+      </div>
+      <div class="verdict good">Sits behind the front, protected by multiple access routes on either side.</div>
+    </div>
+  </div>
+</section>
+
+<section id="objectives">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Cities, Altars & Rewards</h2></div>
+  <p><strong>Cities</strong> generate Influence and drive the faction ranking. Higher-level cities — especially the central one — are worth far more, so factions concentrate on a handful of major targets instead of spreading thin.</p>
+  <p><strong>Altars</strong> start appearing around Week 3, granting powerful alliance-wide skills — shields, missile-type attacks, and more. You can't hold every skill at once; which ones you pick shapes the alliance's entire strategy for the rest of the season.</p>
+  <p><strong>War Merits</strong> are earned individually through captures, defence, and support. These unlock personal bonuses and end-of-season rewards on top of the faction ranking — so individual contribution still counts, even inside a team-first system.</p>
+</section>
+
+<section id="timeline">
+  <div class="sec-head"><span class="sec-num">04</span><h2>Season Timeline</h2></div>
+  <table>
+    <thead><tr><th>Week</th><th>Focus</th><th>Top Priority</th></tr></thead>
+    <tbody>
+      <tr><td class="wk">01</td><td>Expansion</td><td>Capture as many tiles &amp; oases as possible</td></tr>
+      <tr><td class="wk">02</td><td>First Cities</td><td>Secure low-level cities</td></tr>
+      <tr><td class="wk">03</td><td>Altars Begin</td><td>Develop alliance skills</td></tr>
+      <tr><td class="wk">04</td><td>Positional Warfare</td><td>Prepare major offensives</td></tr>
+      <tr><td class="wk">05</td><td>Large-Scale Battles</td><td>Control key cities</td></tr>
+      <tr><td class="wk">06</td><td>Total War</td><td>Dominate strategic points</td></tr>
+      <tr><td class="wk">07</td><td>Final Battle</td><td>Control the centre, maximise Influence</td></tr>
+      <tr><td class="wk">08</td><td>Closure</td><td>Bank final points &amp; rewards</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="roles">
+  <div class="sec-head"><span class="sec-num">05</span><h2>How Alliance Roles Typically Split</h2></div>
+  <p>On well-organised servers, alliances naturally divide into roles rather than every alliance doing everything.</p>
+  <div class="roles">
+    <div class="role-card">
+      <h3>Spearhead</h3>
+      <ul><li>Captures major cities</li><li>Leads the big battles</li><li>Holds the highest-value objectives</li></ul>
+    </div>
+    <div class="role-card support">
+      <h3>Support</h3>
+      <ul><li>Protects flanks</li><li>Reinforces the spearhead</li><li>Backfills losses on major fronts</li></ul>
+    </div>
+    <div class="role-card logistics">
+      <h3>Logistics / Route</h3>
+      <ul><li>Builds tile corridors</li><li>Captures oases</li><li>Defends key passages</li><li>Preps future offensives</li></ul>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="lbl">OFTEN THE MOST DECISIVE ROLE</div>
+    The logistics role isn't glamorous, but a fight is frequently won or lost entirely on whether the routes and oases behind the front line hold. Oases specifically produce Holy Water, used to upgrade your seasonal Obelisk and increase resistance — more oases under control means faster overall progress for everyone.
+  </div>
+</section>
+
+<section id="routes">
+  <div class="sec-head"><span class="sec-num">06</span><h2>Route-Building Strategy</h2></div>
+
+  <div class="diagram">
+    <div class="cap">// CHOKEPOINT — one tile blocks an entire sector</div>
+    <div class="row">
+      <div class="tile f"></div><div class="tile f"></div><div class="tile f"></div>
+      <div class="tile c">◆</div>
+      <div class="tile f"></div><div class="tile f"></div><div class="tile f"></div>
+    </div>
+  </div>
+  <p>Hold it and you block a whole route. Lose it and the enemy opens an entirely new attack lane. The best strategists prioritise these before anything else.</p>
+
+  <div class="diagram">
+    <div class="cap">// CROSSROADS — one tile, multiple directions</div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+      <div class="tile c"></div>
+      <div class="row" style="margin:0;"><div class="tile c"></div><div class="tile c"></div><div class="tile node">✛</div><div class="tile c"></div><div class="tile c"></div></div>
+      <div class="tile c"></div>
+    </div>
+  </div>
+  <p>Control this and you can launch offensives, cut off enemy movement, and defend more easily — all from a single position.</p>
+
+  <div class="compare" style="margin-top:1.6rem;">
+    <div>
+      <div class="diagram">
+        <div class="cap">// SINGLE LINE</div>
+        <div class="row"><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div></div>
+      </div>
+      <div class="verdict bad">One lost tile in the middle stops everything, full stop.</div>
+    </div>
+    <div>
+      <div class="diagram">
+        <div class="cap">// DOUBLE HIGHWAY</div>
+        <div class="row"><div class="tile c"></div><div class="tile c"></div><div class="tile e">✕</div><div class="tile c"></div><div class="tile c"></div></div>
+        <div class="row" style="margin-top:2px;"><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div><div class="tile c"></div></div>
+      </div>
+      <div class="verdict good">Lose a tile on one line — the parallel line keeps the route alive.</div>
+    </div>
+  </div>
+</section>
+
+<section id="buildout">
+  <div class="sec-head"><span class="sec-num">07</span><h2>Phase-by-Phase Buildout</h2></div>
+
+  <div class="phase">
+    <div class="pnum">1</div>
+    <div class="phase-body">
+      <h4>Days 1–3 — Leave Spawn Fast</h4>
+      <p>Don't try to grab every tile. Build one main corridor toward the nearest oases — that's your Holy Water and resistance source. Big accounts hold for major objectives; mid-level players secure oases and side routes.</p>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="pnum">2</div>
+    <div class="phase-body">
+      <h4>Days 4–10 — First Cities Open</h4>
+      <p>Don't build a single direct line to the city — one cut tile stops everything. Build a <strong>triangle</strong>: two converging routes, so if one side is cut, the other still supplies the city.</p>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="pnum">3</div>
+    <div class="phase-body">
+      <h4>After Week 1 — Hub Formation</h4>
+      <p>Major alliances build hubs — a central crossroads branching toward a city, an altar, and an oasis. Any one front can collapse without taking the whole position down.</p>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="pnum">4</div>
+    <div class="phase-body">
+      <h4>Highways &amp; Grids</h4>
+      <p>Two main parallel routes, then cross-connections between them — often just called a "grid" by R5s.</p>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="pnum">5</div>
+    <div class="phase-body">
+      <h4>Approaching the Centre — Build a Web</h4>
+      <p>Stop building single routes entirely. At this stage no single tile loss can stop the advance — that's the whole point.</p>
+    </div>
+  </div>
+</section>
+
+<section id="discipline">
+  <div class="sec-head"><span class="sec-num">08</span><h2>Player Discipline</h2></div>
+  <p>A good player isn't just chasing kills. What R4s and R5s actually expect:</p>
+  <div class="checklist">
+    <div class="item good">Captures the tiles they're asked to</div>
+    <div class="item good">Releases a tile immediately if an officer needs it for a better route</div>
+    <div class="item good">Stays available to recapture a lost tile fast</div>
+    <div class="item good">Follows the planned advance routes rather than freelancing</div>
+    <div class="item bad">Capturing isolated tiles that connect to nothing</div>
+    <div class="item bad">Filling the full 40-tile cap while the alliance still needs routes opened</div>
+    <div class="item bad">Refusing to release a tile when an R4 asks</div>
+    <div class="item bad">Attacking without checking the connection to the network is still live</div>
+  </div>
+
+  <div class="callout" style="margin-top:1.8rem;">
+    <div class="lbl">FOR A TOP FINISH</div>
+    Log in for every major opening — cities, altars, big battles. Keep stamina and speed-ups in reserve for war days rather than burning them early. Don't waste tile slots on dead positions — prioritise ones that open routes or guard key points. If you're not a top-power player, tile capture and defence is genuinely one of the most valuable things you can do this season.
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <span>ORIGIN LANDS // SEASON 6 FIELD BRIEFING</span>
+  <span>STATE 362 — PAIRED WITH 364</span>
+</footer>
+
+</body>
+</html>
